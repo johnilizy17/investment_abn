@@ -10,7 +10,7 @@ import {
 import ROUTES from '@/utils/ROUTES';
 import { logout } from '@/url/redux/slices/authSlice';
 
-const baseURL = 'https://steamledgestaging.com/api/v1';
+const baseURL = 'http://127.0.0.1:8787/api/v1';
 
 export const userRequest = axios.create({ baseURL, headers: { "Content-Type": "application/json", "X-Requested-With": "XMLHTTPRequest" } });
 export const publicRequest = axios.create({ baseURL, headers: { "Content-Type": "application/json", "X-Requested-With": "XMLHTTPRequest" } });

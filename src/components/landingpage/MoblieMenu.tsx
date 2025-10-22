@@ -18,7 +18,7 @@ export default function MoblieMenu() {
     }
 
   function DisableDashboard(path: string) {
-        const active = path.includes("dashboard/") ? "none" : "block"
+        const active = path.includes("dashboard/") ? "block" : "block"
         return active
     }
 

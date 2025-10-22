@@ -38,10 +38,10 @@ export default function LandBanking() {
             <Flex justify="space-between" direction={{ base: "column", md: "row" }} gap={8}>
                 {steps.map((step) => (
                     <VStack key={step.number} spaceX={4} flex="1">
-                        <Circle size="50px" bg="gray.100" color="black" fontWeight="bold">
+                        <Circle size="50px" bg="#0049AF1A" color="black" fontWeight="bold">
                             {step.number}
                         </Circle>
-                        <Text fontWeight="semibold" fontSize="lg">
+                        <Text fontWeight="500" color={COLORS.black} fontSize="lg">
                             {step.title}
                         </Text>
                         <Text color={COLORS.gray} fontSize={["12px","16px"]} lineHeight={"100%"} maxW="250px">

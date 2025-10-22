@@ -1,13 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import authReducer from './slices/authSlice';
-import teacherReducer from './slices/techerSlice';
-import questionReducer from './slices/questionSlice';
+import assetReducer from './slices/assetSlice';
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    teacher: teacherReducer,
-    question:questionReducer
+    asset:assetReducer
 });
 
 export const store = configureStore({

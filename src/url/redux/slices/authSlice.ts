@@ -16,6 +16,7 @@ const initialState: AuthState = {
     refreshToken: getRefreshToken(),
     isLoading: false,
     user: STORAGE.get(LOCAL_STORAGE_KEYS.USER) || null,
+    wallet: STORAGE.get(LOCAL_STORAGE_KEYS.WALLET) || null,
     isError: false,
     temporary: {}
 };
@@ -81,6 +82,41 @@ export const authRegister = createAsyncThunk(
         }
     }
 );
+
+//wallet
+export const CompleteKYC = createAsyncThunk(
+    'wallet',
+    async (payload: any, { rejectWithValue }) => {
+        try {
+            const response = await userRequest.post(
+                `wallet`,
+                payload
+            );
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(
+                error.response?.data || 'Failed to complete KYC'
+            );
+        }
+    }
+);
+
+export const getWallet = createAsyncThunk(
+    'wallet',
+    async (payload: any, { rejectWithValue }) => {
+        try {
+            const response = await userRequest.get(`wallet`);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error during authForgottenPassword:', error.response?.data.message);
+            return rejectWithValue(
+                error.response?.data.message || 'Failed to send password reset email'
+            );
+        }
+    }
+);
+
+
 
 // Register User
 export const authRegisterTeacher = createAsyncThunk(
@@ -176,17 +212,18 @@ export const authLogin = createAsyncThunk(
     async (data: LoginDto, { rejectWithValue }) => {
         try {
             const response: AxiosResponse<RegisterResponse> =
-                await publicRequest.post('/login', data);
+                await publicRequest.post('/auth/login', data);
 
+            console.log(response, "response")
             saveTokens({
                 accessToken: response.data.data.token,
                 refreshToken: response.data.data.token,
                 expiresIn: 300,
             });
+            const info = { token: response.data.data.token, ...response.data.data.profile }
+            STORAGE.set(LOCAL_STORAGE_KEYS.USER, info);
 
-            STORAGE.set(LOCAL_STORAGE_KEYS.USER, response.data.data);
-
-            return response.data;
+            return { data: info };
         } catch (error: any) {
             return rejectWithValue(error.response?.data || 'Login failed');
         }
@@ -288,7 +325,7 @@ const authSlice = createSlice({
         logout: (state) => {
             state.token = null;
             state.refreshToken = null;
-            state.user = null;
+            state.user = {};
             clearTokens();
         },
     },
@@ -326,6 +363,11 @@ const authSlice = createSlice({
                 state.user = action.payload.data;
                 state.isLoading = false;
             })
+
+            .addCase(getWallet.fulfilled, (state, action) => {
+                STORAGE.set(LOCAL_STORAGE_KEYS.WALLET, action.payload.data);
+                state.wallet = action.payload.data;
+            })
             .addCase(authLogin.rejected, (state) => {
                 state.isLoading = false;
                 state.isError = true;
@@ -339,7 +381,8 @@ interface AuthState {
     isLoading: boolean;
     user: any;
     isError: boolean;
-    temporary: any
+    temporary: any,
+    wallet: any[]
 }
 
 interface RefreshTokenResponse {

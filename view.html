@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Payment Receipt</title>
+    <style>
+        :root {
+            --bg: #f6f8fb;
+            --card: #ffffff;
+            --muted: #6b7280;
+            --accent: #0f62fe;
+            /* blue accent, change to brand color */
+            --success: #16a34a;
+            --radius: 12px;
+            --max-width: 760px;
+            --pad: 24px;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            padding: 32px;
+            background: linear-gradient(180deg, #f3f6fb 0%, #eef2f8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #111827;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .receipt {
+            width: 100%;
+            max-width: var(--max-width);
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: 0 6px 30px rgba(15, 23, 42, 0.08);
+            padding: var(--pad);
+            box-sizing: border-box;
+        }
+
+        .receipt__header {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .brand {
+            width: 64px;
+            height: 64px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent), #6b8cff);
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+            flex: 0 0 64px;
+        }
+
+        .head-info {
+            flex: 1;
+        }
+
+        .head-info h1 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: 0.2px;
+        }
+
+        .head-info p {
+            margin: 4px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .receipt__meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 22px;
+            align-items: center;
+        }
+
+        .meta-item {
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            color: var(--muted);
+            min-width: 120px;
+        }
+
+        .amount {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .amount .value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .amount .currency {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .detail-card {
+            background: #fafbff;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 13px;
+        }
+
+        .detail-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 600;
+            letter-spacing: 0.2px;
+        }
+
+        .detail-card p {
+            margin: 0;
+            word-break: break-word;
+        }
+
+        .description {
+            margin: 14px 0;
+            font-size: 14px;
+            color: #111827;
+            line-height: 1.4;
+            background: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #eef2f7;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 18px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--success);
+            font-size: 13px;
+            background: #f0fbf4;
+            padding: 8px 12px;
+            border-radius: 999px;
+        }
+
+        .small {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* print-friendly */
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+            }
+
+            .receipt {
+                box-shadow: none;
+                border-radius: 0;
+                max-width: 100%;
+                margin: 0;
+            }
+
+            .brand {
+                filter: grayscale(1);
+            }
+        }
+
+        /* small screens */
+        @media (max-width:560px) {
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .meta-item {
+                min-width: unset;
+                flex: 1 1 auto;
+            }
+
+            .receipt {
+                padding: 16px;
+            }
+        }
+
+        /* visually-hidden utility for accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <article class="receipt" role="document" aria-labelledby="receiptTitle">
+        <header class="receipt__header">
+            <div class="brand" aria-hidden="true">ABN</div>
+            <div class="head-info">
+                <h1 id="receiptTitle">Payment Receipt</h1>
+                <p class="small" id="companyName">AB Narinohs</p>
+            </div>
+            <div class="sr-only" id="printHint">Use your browser's print to print this receipt</div>
+        </header>
+
+        <section class="receipt__meta" aria-labelledby="metaLabel">
+            <div class="meta-item"><strong id="metaDate">—</strong>
+                <div class="small">Date</div>
+            </div>
+            <div class="meta-item"><strong id="metaTxn">—</strong>
+                <div class="small">Transaction ID</div>
+            </div>
+            <div class="meta-item"><strong id="metaStatus">—</strong>
+                <div class="small">Status</div>
+            </div>
+        </section>
+
+        <main>
+            <div class="amount" aria-label="Amount paid">
+                <div class="value" id="amountValue">—</div>
+                <div class="currency" id="amountCurrency">—</div>
+            </div>
+
+            <div class="details" role="table" aria-label="Receipt details">
+                <div class="detail-card" role="row">
+                    <h3>Payer</h3>
+                    <p id="payerName">—</p>
+                </div>
+                <div class="detail-card" role="row">
+                    <h3>Payee</h3>
+                    <p id="payeeName">—</p>
+                </div>
+                <div class="detail-card" role="row">
+                    <h3>Reference</h3>
+                    <p id="reference">—</p>
+                </div>
+                <div class="detail-card" role="row">
+                    <h3>Balance (optional)</h3>
+                    <p id="balance">—</p>
+                </div>
+            </div>
+
+            <section>
+                <h3 class="small" style="margin-bottom:8px">Description</h3>
+                <div class="description" id="descriptionText">—</div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="small">If you have any questions, contact <strong id="supportEmail">support@fintech.co</strong>.
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;">
+                <div class="status" id="statusPill">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                        <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <span id="statusText">Paid</span>
+                </div>
+                <button onclick="window.print()" aria-label="Print receipt"
+                    style="background:none;border:1px solid #e6eefc;padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer;">Print</button>
+            </div>
+        </footer>
+    </article>
+
+    <script>
+        /**
+         * populateReceipt(data)
+         * Accepts an object with these keys (all optional, but template will show reasonable defaults):
+         * {
+         *   companyName, supportEmail, date, transactionId, paymentMethod, status,
+         *   amount: number|string, currency: string, payerName, payeeName,
+         *   reference, balance, description
+         * }
+         */
+        function populateReceipt(d) {
+            // safe defaults
+            const fmtDate = (dt) => {
+                if (!dt) return new Date().toLocaleString();
+                const x = new Date(dt);
+                return isNaN(x) ? String(dt) : x.toLocaleString();
+            };
+
+            const el = (id) => document.getElementById(id);
+
+            el('companyName').textContent = d.companyName || 'AB Narinohs';
+            el('supportEmail').textContent = d.supportEmail || 'abnarinohs@gmail.com';
+
+            el('metaDate').textContent = fmtDate(d.date);
+            el('metaTxn').textContent = d.transactionId || (d.txn || '—');
+            el('metaStatus').textContent = d.status || d.state || 'Paid';
+
+            // amount formatting (simple)
+            const rawAmount = d.amount ?? d.value ?? 0;
+            const currency = d.currency || (d.currencyCode || 'USD');
+            // if amount is numeric, format; else display raw
+            let amountDisplay = (typeof rawAmount === 'number' || !isNaN(Number(rawAmount))) ?
+                new Intl.NumberFormat(undefined, { style: 'currency', currency }).format(Number(rawAmount)) :
+                String(rawAmount);
+
+            // Split currency and value for visual style: attempt to extract symbol
+            // We'll set full formatted string into amountValue and currency label separately if possible.
+            el('amountValue').textContent = amountDisplay;
+            el('amountCurrency').textContent = '';
+
+            el('payerName').textContent = d.payerName || '—';
+            el('payeeName').textContent = d.payeeName || '—';
+            el('reference').textContent = d.reference || '—';
+            el('balance').textContent = (d.balance !== undefined && d.balance !== null) ? d.balance : '—';
+
+            el('descriptionText').textContent = d.description || 'Payment received.';
+
+            el('statusText').textContent = d.status || 'Paid';
+            if ((d.status || '').toLowerCase().includes('failed') || (d.status || '').toLowerCase().includes('declined')) {
+                document.getElementById('statusPill').style.color = '#b91c1c';
+                document.getElementById('statusPill').style.background = '#fff1f2';
+            } else if ((d.status || '').toLowerCase().includes('pending')) {
+                document.getElementById('statusPill').style.color = '#b45309';
+                document.getElementById('statusPill').style.background = '#fff7ed';
+            } else {
+                document.getElementById('statusPill').style.color = 'var(--success)';
+                document.getElementById('statusPill').style.background = '#f0fbf4';
+            }
+        }
+
+        // Example usage: replace with real data from your backend or state
+        const example = {
+            companyName: 'AB Narinohs',
+            supportEmail: 'info@abnarinohs.com',
+            date: new Date(),
+            transactionId: 'TXN-20251020-8F3B2',
+            status: 'Paid',
+            amount: 249.99,
+            currency: 'NGN',
+            payerName: 'Qudus Johnson',
+            payeeName: 'Aurora FinTech — Account Settlement',
+            reference: 'Invoice #2025-0918',
+            balance: '$1,750.01',
+            description: 'Payment for monthly subscription — Premium Plan (Oct 2025). Thank you for your business.'
+        };
+
+        // populate on load with the example
+        document.addEventListener('DOMContentLoaded', () => populateReceipt(example));
+    </script>
+</body>
+
+</html>

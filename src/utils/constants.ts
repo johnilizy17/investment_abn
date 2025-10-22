@@ -16,17 +16,24 @@ import {
 export const navRouters = [
   { name: "Home", nav: "/", auth: false, admin: false, icon: MdHome },
   { name: "Dashboard", nav: "/dashboard/", auth: true, admin: false, icon: MdDashboard },
-  { name: "Leaderboard", nav: "/dashboard/leaderboard", auth: true, admin: false, icon: MdLeaderboard },
-  { name: "All Teacher", nav: "/dashboard/teacher", auth: true, admin: true, icon: MdSchool },
-  { name: "Syllabus", nav: "/dashboard/syllabus", auth: true, admin: true, icon: MdDeveloperBoard },
-  { name: "Groups", nav: "/dashboard/group", auth: true, admin: false, icon: MdGroups },
-  { name: "Quizzes", nav: "/dashboard/quizzes", auth: true, admin: false, icon: MdQuiz },
   { name: "Profile", nav: "/dashboard/profile", auth: true, admin: false, icon: MdPerson },
-  { name: "Settings", nav: "/dashboard/settings", auth: true, admin: true, icon: MdSettings },
   { name: "Marketplace", nav: "/marketplace", auth: false, admin: false, icon: MdPolicy },
   { name: "Portfolio", nav: "/portfolio", auth: false, admin: false, icon: MdGavel },
-  { name: "Sign out", nav: "/dashboard/signout", auth: false, admin: false, icon: MdLogout },
+  { name: "Terms", nav: "/term", auth: false, admin: false, icon: MdGavel }
 ];
+
+export const LOCAL_STORAGE_KEYS = {
+  USER: 'techxplora-user',
+  ACCESS_TOKEN: 'access_token',
+  GET_QUESTION: 'question',
+  REFRESH_TOKEN: 'refresh_token',
+  TOKEN_EXPIRE_TIME: 'access_token_expiry',
+  WALLET: "wallet details",
+  CART: "Carts",
+  ORDER: "Orders",
+  SUB: "Subs"
+} as const;
+
 
 export const rangeTime = (a: number) => {
   const seconds = a * 60;

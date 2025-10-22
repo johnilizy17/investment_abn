@@ -25,14 +25,17 @@ import {
 import MoblieMenu from './MoblieMenu';
 import LaptopMenu from './LaptopMenu';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { MdCancel } from 'react-icons/md';
+import { FiLogOut } from 'react-icons/fi';
+import { logout } from '@/url/redux/slices/authSlice';
 
 export default function Navbar() {
     const { open, onOpen, onClose } = useDisclosure();
     const router = useRouter();
     const { user } = useSelector((a: { auth: { user: any } }) => a.auth)
+    const dispatch = useDispatch()
     const [mounted, setMounted] = useState(false);
 
 
@@ -48,18 +51,21 @@ export default function Navbar() {
                 {/* Desktop Login */}
                 <LaptopMenu />
                 <Center>
-                    {user && user.id ? (
+                    {user && user.id && user.id ? (
                         <Button
-                            onClick={() => router.push("/dashboard")}
+                            onClick={() => dispatch(logout())}
                             fontWeight="500"
                             mr="4.5px"
                             colorScheme="blue"
                             w="100px"
                             h="40px"
-                            bg={COLORS.blue}
+                            borderColor={COLORS.red}
+                            borderWidth={1}
+                            color={COLORS.red}
+                            bg="transparent"
                             borderRadius="10px"
                         >
-                            Dashboard
+                            Logout  <FiLogOut />
                         </Button>
                     ) : router.pathname === "/auth/login" ? (
                         <Button

@@ -1,13 +1,23 @@
-import DashboardHeader from '@/component/landingpage/DasboardHeader';
 import Head from 'next/head';
-import React from 'react';
-import { AiChat } from './AiChat';
+import React, { useEffect } from 'react';
+import Footer from './Footer';
+import { getAssetAll } from '@/url/redux/slices/assetSlice';
+import { useDispatch } from 'react-redux';
+import { getWallet } from '@/url/redux/slices/authSlice';
 
-export default function DashboardLayout({ title, children, chat=false }: { title: string, children: any, chat?:boolean }) {
+export default function NoAuthLayout({ children, title }: { children: any, title: string }) {
+
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getAssetAll({ page: 1, status: 1, title: "" }) as any)
+        dispatch(getWallet("") as any)
+    }, [])
     return (
         <>
             <Head>
-                <title>TechXplore - {title}</title>
+                <title>AB Narinohs - {title}</title>
                 <meta name="description" content="Quest Earn Get Start" />
                 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
                 <link
@@ -17,11 +27,8 @@ export default function DashboardLayout({ title, children, chat=false }: { title
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-
-            <DashboardHeader />
-
-         {!chat &&   <AiChat />}
             {children}
+            <Footer />
         </>
     )
 }

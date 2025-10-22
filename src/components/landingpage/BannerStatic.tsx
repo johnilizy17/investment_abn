@@ -1,17 +1,17 @@
-import { Box, Flex, Text, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Center, Flex, Text, useBreakpointValue } from "@chakra-ui/react";
 
 export default function BannerStatic() {
   const direction = useBreakpointValue({ base: "column", md: "row" });
 
   const stats = [
-    { number: "$2.4M+", label: "Total Invested" },
+    { number: "₦2.4M+", label: "Total Invested" },
     { number: "1,250+", label: "Active Investors" },
     { number: "45", label: "Land Projects" },
     { number: "12.3%", label: "Avg. Annual Return" },
   ];
 
   return (
-    <Box
+    <Center
       py={{ base: 6, md: 8 }}
       px={4}
       w="full"
@@ -22,21 +22,20 @@ export default function BannerStatic() {
         justify="space-around"
         align="center"
         gap={{ base: 6, md: 0 }}
-        borderTop="1px solid"
-        borderBottom="1px solid"
-        borderColor="whiteAlpha.400"
         py={4}
+        w="full"
+        maxW="711px"
         textAlign="center"
       >
         {stats.map((item, index) => (
           <Box key={index}>
-            <Text fontSize={{ base: "2xl", md: "3xl" }} mb={"5px"} fontWeight="bold">
+            <Text fontSize="16px" mb={"5px"} fontWeight="700">
               {item.number}
             </Text>
-            <Text fontSize={{ base: "sm", md: "md" }}>{item.label}</Text>
+            <Text fontSize={"13px"} fontWeight={"400"}>{item.label}</Text>
           </Box>
         ))}
       </Flex>
-    </Box>
+    </Center>
   );
 }

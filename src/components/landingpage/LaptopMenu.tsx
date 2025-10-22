@@ -7,10 +7,12 @@ import {
     Box
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 export default function LaptopMenu() {
 
     const router = useRouter()
+    const { user } = useSelector((a: { auth: { user: any } }) => a.auth)
 
     function ColorSection(path: string) {
         const active = router.pathname === path
@@ -18,7 +20,7 @@ export default function LaptopMenu() {
     }
 
     function DisableDashboard(path: string) {
-        const active = path.includes("dashboard/") ? "none" : "block"
+        const active = (path.includes("dashboard") || path.includes("portfolio")) && (user &&!user.id || !user) ? "none" : "block"
         return active
     }
 

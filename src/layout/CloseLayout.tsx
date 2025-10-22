@@ -1,4 +1,3 @@
-import LeftArrowIcon from '@/component/asset/LeftArrowIcon';
 import { COLORS } from '@/utils/theme';
 import { Box, Center, Flex, IconButton, Image } from '@chakra-ui/react';
 import Head from 'next/head';

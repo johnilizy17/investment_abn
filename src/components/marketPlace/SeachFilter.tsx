@@ -1,3 +1,4 @@
+import { getAssetAll, setInvestment } from "@/url/redux/slices/assetSlice";
 import { COLORS } from "@/utils/theme";
 import {
     Flex,
@@ -14,20 +15,34 @@ import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { MdFilter, MdSettings } from "react-icons/md";
 import { VscSettings } from "react-icons/vsc";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function SearchFilter() {
 
     const [value, setValue] = useState<string[]>([])
+    const dispatch = useDispatch();
+    const { investment } = useSelector((a: { asset: { investment: any } }) => a.asset)
     const frameworks = createListCollection({
         items: [
             { label: "Highest Yield", value: "1" },
             { label: "Lowest Yield", value: "2" },
         ],
     })
+
+    function sortByPercentage(data: any, order = 'asc') {
+        return [...data].sort((a, b) => {
+            if (order === 'asc') return a.percentage - b.percentage;
+            else return b.percentage - a.percentage;
+        });
+    }
     return (
         <Flex align="center" gap={4}>
             <InputGroup bg="#0049AF1A" _active={{ borderColor: COLORS.blue }} startElement={<Box p="10px"><FaSearch color={COLORS.blue} /></Box>}>
-                <Input _placeholder={{ color: COLORS.blue }} placeholder="Search land banks by name or location" />
+                <Input _placeholder={{ color: COLORS.blue }}
+                    onChange={(e: any) => {
+                        dispatch(getAssetAll({ page: 1, status: 2, title: e.target.value }) as any)
+                    }}
+                    placeholder="Search land banks by name or location" />
             </InputGroup>
 
             <Select.Root
@@ -35,7 +50,17 @@ export default function SearchFilter() {
                 collection={frameworks}
                 width="190px"
                 value={value}
-                onValueChange={(e) => setValue(e.value)}
+                onValueChange={(e: any) => {
+                    setValue(e.value)
+                    let result
+                    if (e.value == "1") {
+                        result = sortByPercentage(investment.data, 'asc');
+                    } else {
+                        result = sortByPercentage(investment.data, 'desc');
+                    }
+                    // Descending
+                    dispatch(setInvestment({...investment, data:result}) as any)
+                }}
             >
                 <Select.HiddenSelect />
                 <Select.Control px={4} bg="#0049AF1A" >
