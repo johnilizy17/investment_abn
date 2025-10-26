@@ -35,8 +35,8 @@ const PortfolioGrid = () => {
         },
         {
             title: "Main Balance",
-            value: wallet && wallet.investment_balance ? cashFormat(wallet.withdrawal_balance) : cashFormat(0),
-            subtitle: cashFormat(wallet.payout) ?? cashFormat(0),
+            value: wallet && wallet.investment_balance && wallet.investment_balance ? cashFormat(wallet.withdrawal_balance) : cashFormat(0),
+            subtitle: wallet && wallet.investment_balance ? cashFormat(wallet.payout) : cashFormat(0),
             icon: "graph",
             highlight: true,
         },
@@ -48,7 +48,7 @@ const PortfolioGrid = () => {
         },
         {
             title: "Portfolio Returns",
-            value: "+"+cashFormat2(shares.averagePercentage) + "%",
+            value: "+" + cashFormat2(shares.averagePercentage) + "%",
             subtitle: "Annualized returns",
             icon: "wallet",
             isPositive: true,
