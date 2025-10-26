@@ -53,7 +53,12 @@ export const getAssetAll = createAsyncThunk(
   async (payload: any, { rejectWithValue }) => {
     try {
       const investment = await userRequest.get(`/investment/stats?page=${payload.page}&title=${payload.title}&status=2`);
-      const asset = await userRequest.get(`/userAsset`);
+      let asset;
+      try {
+        asset = await userRequest.get(`/userAsset`);
+      } catch (err) {
+        asset = { data: { data: [] } };
+      }
       return {
         investment: investment.data.data,
         asset: asset.data.data
