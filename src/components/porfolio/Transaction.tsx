@@ -23,29 +23,30 @@ export default function TransactionTable() {
       <Text fontSize="xl" fontWeight="bold" mb={4}>
         Recent Transactions
       </Text>
-
-      <Table.Root variant="outline">
-        <Table.Header mb="10px" bg={COLORS.blue}>
-          <Table.Row>
-            <Table.ColumnHeader p="20px" color={COLORS.white}>Date</Table.ColumnHeader>
-            <Table.ColumnHeader p="20px" color={COLORS.white}>Property</Table.ColumnHeader>
-            <Table.ColumnHeader p="20px" color={COLORS.white}>Type</Table.ColumnHeader>
-            <Table.ColumnHeader p="20px" color={COLORS.white}>Amount</Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {properties && properties.transaction && properties.transaction.length > 0.1 ? properties.transaction.map((tx: any) => (
-            <Table.Row key={tx.id}>
-              <Table.Cell p="20px">{tx.walletTransactions.created_at}</Table.Cell>
-              <Table.Cell p="20px">{tx.investments ? tx.investments.title : "No Properties"}</Table.Cell>
-              <Table.Cell p="20px" fontWeight="semibold">{tx.walletTransactions.type === 2 ? "Debit" : tx.walletTransactions.type === 1 ? "Credit" : "Transfer"}</Table.Cell>
-              <Table.Cell color={tx.walletTransactions.type === 2 ? "red" : tx.walletTransactions.type === 1 ? "green" : "yellow"} p="20px" fontWeight="semibold">{cashFormat(tx.walletTransactions.amount)}</Table.Cell>
+      {properties && properties.transaction && properties.transaction.length > 0.1 ?
+        <Table.Root variant="outline">
+          <Table.Header mb="10px" bg={COLORS.blue}>
+            <Table.Row>
+              <Table.ColumnHeader p="20px" color={COLORS.white}>Date</Table.ColumnHeader>
+              <Table.ColumnHeader p="20px" color={COLORS.white}>Property</Table.ColumnHeader>
+              <Table.ColumnHeader p="20px" color={COLORS.white}>Type</Table.ColumnHeader>
+              <Table.ColumnHeader p="20px" color={COLORS.white}>Amount</Table.ColumnHeader>
             </Table.Row>
-          )) :
-            <EmptyState title="no transactions" />
-          }
-        </Table.Body>
-      </Table.Root >
+          </Table.Header>
+          <Table.Body>
+            {properties.transaction.map((tx: any) => (
+              <Table.Row key={tx.id}>
+                <Table.Cell p="20px">{tx.walletTransactions.created_at}</Table.Cell>
+                <Table.Cell p="20px">{tx.investments ? tx.investments.title : "No Properties"}</Table.Cell>
+                <Table.Cell p="20px" fontWeight="semibold">{tx.walletTransactions.type === 2 ? "Debit" : tx.walletTransactions.type === 1 ? "Credit" : "Transfer"}</Table.Cell>
+                <Table.Cell color={tx.walletTransactions.type === 2 ? "red" : tx.walletTransactions.type === 1 ? "green" : "yellow"} p="20px" fontWeight="semibold">{cashFormat(tx.walletTransactions.amount)}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root >
+        :
+        <EmptyState title="no transactions" />
+      }
     </Box >
   );
 }
