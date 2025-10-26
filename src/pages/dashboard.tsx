@@ -12,6 +12,7 @@ import PortfolioStatus from "@/components/porfolio/PortfolioStatus";
 import { KYCAlertModel } from "@/template/model/KYCAlertModel";
 import { useSelector } from "react-redux";
 import Transaction from "@/components/porfolio/Transaction";
+import { EmptyState } from "@/utils/EmptyState";
 
 
 export default function MarketplacePage() {
@@ -40,11 +41,13 @@ export default function MarketplacePage() {
                         <Tabs.Content value="activities"><Transaction /></Tabs.Content>
                         <Tabs.Content value="opportunity">
                             <SimpleGrid columns={{ base: 1, md: 2, lg: 2 }} gap={8} mt={8}>
-                                {investment.data.map((item: any, idx: number) => (
+                                {investment && investment.data && investment.data.length > 0.1 ? investment.data.map((item: any, idx: number) => (
                                     <LandCard key={idx} {...item} />
-                                ))}
+                                )) :
+                                    <EmptyState title="no properties" />}
+
                             </SimpleGrid>
-                        </Tabs.Content> 
+                        </Tabs.Content>
                     </Tabs.Root>
 
                 </Container>
