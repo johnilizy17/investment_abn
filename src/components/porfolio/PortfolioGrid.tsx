@@ -29,13 +29,13 @@ const PortfolioGrid = () => {
     const stats = [
         {
             title: "Total Invested",
-            value: wallet.investment_balance ? cashFormat(wallet.investment_balance) : cashFormat(0),
+            value: wallet && wallet.investment_balance ? cashFormat(wallet.investment_balance) : cashFormat(0),
             subtitle: `Across ${properties && properties.asset ? properties.asset.length : 0} land banks`,
             icon: "N",
         },
         {
             title: "Main Balance",
-            value: wallet.investment_balance ? cashFormat(wallet.withdrawal_balance) : cashFormat(0),
+            value: wallet && wallet.investment_balance ? cashFormat(wallet.withdrawal_balance) : cashFormat(0),
             subtitle: cashFormat(wallet.payout) ?? cashFormat(0),
             icon: "graph",
             highlight: true,
