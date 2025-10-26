@@ -1,11 +1,12 @@
 // components/OtpInput.tsx
 import useCustomToast from "@/hooks/useCustomToast";
+import { authForgottenPassword } from "@/url/redux/slices/authSlice";
 import { COLORS } from "@/utils/theme";
 import { Box, Button, Center, HStack, PinInput, PinInputControl, PinInputHiddenInput, PinInputInput, PinInputRoot, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function OtpInput() {
 
@@ -14,6 +15,8 @@ export default function OtpInput() {
     const [otp, setOtp] = useState("");
     const showMessage = useCustomToast();
     const { user } = useSelector((a: { auth: { user: any } }) => a.auth)
+    const showToast = useCustomToast();
+    const dispatch = useDispatch();
 
     const router = useRouter();
 
@@ -30,20 +33,15 @@ export default function OtpInput() {
     }, [timer]);
 
     async function ProfileVerified() {
-        if (otp.length > 5) {
-            // if (otp === user.code) {
-                // showMessage("Code successfullt verified", "success")
-                // if (user.accountable_type === "App\\Models\\Teacher") {
-                //     await updateTeachers({ id: user.id, is_verified: 1 })
-                // } else {
-                //     await updateStudentDetails({ id: user.id, is_verified: 1 })
-                // }
-                // showMessage("Your account has been verified", "success");
+        if (otp.length > 4) {
 
-                router.push("/auth/reset")
-            // } else {
-            //     showMessage("Code does not match the verification code", "error")
-            // }
+            await dispatch(authForgottenPassword({ otp: otp }) as any).unwrap()
+                .then(() => {
+                    showToast('OTP successfully verified', 'success');
+                    router.push("/auth/reset");
+                }).catch((error: any) => {
+                    showToast(error, "error")
+                });
         }
     }
     useEffect(() => {
@@ -75,7 +73,6 @@ export default function OtpInput() {
                         <PinInputInput _focus={{ borderColor: COLORS.blue }} placeholder="3" index={2} />
                         <PinInputInput _focus={{ borderColor: COLORS.blue }} placeholder="4" index={3} />
                         <PinInputInput _focus={{ borderColor: COLORS.blue }} placeholder="5" index={4} />
-                        <PinInputInput _focus={{ borderColor: COLORS.blue }} placeholder="6" index={5} />
                     </PinInputControl>
                 </PinInputRoot>
             </HStack>

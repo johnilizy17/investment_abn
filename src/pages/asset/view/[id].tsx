@@ -22,6 +22,9 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { removeYearFromISO } from "@/utils/date";
+import { getTransactionHistory } from "@/url/redux/slices/authSlice";
+import TransactionSingleTable from "@/components/porfolio/TransactionSingle";
 
 export default function InvestmentDetails() {
 
@@ -32,6 +35,8 @@ export default function InvestmentDetails() {
     const [open, setOpen] = useState(false)
     const { user, wallet } = useSelector((a: { auth: { user: any, wallet: any } }) => a.auth)
     const { temporary } = useSelector((a: { asset: { temporary: any } }) => a.asset)
+    const [asset, setAsset] = useState<any>({})
+    const { investment, properties } = useSelector((a: { asset: { investment: any, properties: any } }) => a.asset)
     const showMessage = useCustomToast();
 
     async function buyshare(a: number) {
@@ -40,8 +45,8 @@ export default function InvestmentDetails() {
                 setLoading(true)
                 try {
                     setOpen(false)
-                    const amount = ((temporary.amount / temporary.shares) * ((value && JSON.parse(value)) ?? 0))
-                    const asset = await createAsset({ assetId: temporary.id, shares: (value && JSON.parse(value)), amount: amount, })
+                    const amount = ((temporary.amount / temporary.shares) * (value ? JSON.parse(value) : 0))
+                    // const asset = await createAsset({ assetId: temporary.id, shares: (value && JSON.parse(value)), amount: amount, })
                     showMessage("Properties successfully purchase", "success")
                     router.push("/dashboard")
                 } catch (e: any) {
@@ -59,13 +64,27 @@ export default function InvestmentDetails() {
 
     async function fetchDetails() {
         setLoading(true)
-        const path = router.query && router.query.id
-        if (path) await dispatch(getAssetSingle(path) as any)
-        setLoading(false)
+        try {
+            const path = router.query && router.query.id && router.query.id
+            if (path) {
+                await dispatch(getAssetSingle(path) as any)
+                await dispatch(getTransactionHistory(path) as any)
+                setLoading(false)
+            }
+        } catch (e: any) {
+
+        }
     }
     useEffect(() => {
         fetchDetails()
     }, [router.query && router.query.id])
+
+    useEffect(() => {
+        if (temporary && temporary.id) {
+            const filtered = properties.asset.filter((item: any) => item.userAssets.assetId === temporary.id)
+            setAsset(filtered[0].userAssets)
+        }
+    }, [temporary])
     return (
         <DashboardLayout title="Dashboard - Land Banking">
             <Navbar />
@@ -101,7 +120,7 @@ export default function InvestmentDetails() {
                                     </Box>
                                     <Box>
                                         <Text fontWeight="400" fontSize={["12px", "16px"]} color={COLORS.gray}>Current Investors</Text>
-                                        <Text fontWeight="400" fontSize={["16px", "20px"]} mt={2} color={COLORS.black}>{(JSON.parse(temporary.investor)).length}</Text>
+                                        <Text fontWeight="400" fontSize={["16px", "20px"]} mt={2} color={COLORS.black}>{temporary.investor && (JSON.parse(temporary.investor)).length}</Text>
                                     </Box>
                                 </Flex>
                             </Box>
@@ -131,45 +150,27 @@ export default function InvestmentDetails() {
                             <Heading fontSize="lg" mb={4}>Investment Details</Heading>
 
                             <Flex justify="space-between" mb={2}>
-                                <Text color="gray.600">Share price</Text>
-                                <Text fontWeight="semibold">{cashFormat(temporary.amount / temporary.shares)}</Text>
-                            </Flex>
-                            <Flex justify="space-between" mb={2}>
-                                <Text color="gray.600">Total Value</Text>
-                                <Text fontWeight="semibold">{cashFormat(temporary.amount)}</Text>
+                                <Text color="gray.600">Share price owned</Text>
+                                <Text fontWeight="semibold">{cashFormat(asset.amount)}</Text>
                             </Flex>
 
                             <Flex justify="space-between" mb={2}>
-                                <Text color="gray.600">Total Shares</Text>
-                                <Text fontWeight="semibold">{cashFormat2(temporary.shares - temporary.payment)}</Text>
+                                <Text color="gray.600">Total Shares Owned</Text>
+                                <Text fontWeight="semibold">{cashFormat2(asset.shares)}</Text>
                             </Flex>
 
                             <Flex justify="space-between" mb={4}>
-                                <Text color="gray.600">Shares Available</Text>
-                                <Text fontWeight="semibold"> {Math.round(((temporary.amount - temporary.payment) / (temporary.amount / temporary.shares)))}</Text>
+                                <Text color="gray.600">Total Payment</Text>
+                                <Text fontWeight="semibold"> {cashFormat(asset.payment)}</Text>
                             </Flex>
-
+                            <Flex justify="space-between" mb={4}>
+                                <Text color="gray.600">Time Bought </Text>
+                                <Text fontWeight="semibold"> {removeYearFromISO(asset.created_at)}</Text>
+                            </Flex>
                             < Separator mb={4} />
 
-                            <Text fontSize="sm" mb={2} color="gray.600">
-                                Number of Shares {cashFormat((temporary.amount / temporary.shares) * ((value && JSON.parse(value)) ?? 0))}/<span style={wallet.withdrawal_balance && (wallet.withdrawal_balance - ((temporary.amount / temporary.shares) * ((value && JSON.parse(value)) ?? 0))) > 0 ? { color: COLORS.blue } : { color: COLORS.red }}> {wallet.withdrawal_balance ? cashFormat(wallet.withdrawal_balance - ((temporary.amount / temporary.shares) * ((value && JSON.parse(value)) ?? 0))) : cashFormat((temporary.amount / temporary.shares) * ((value && JSON.parse(value)) ?? 0))}</span>
-                            </Text>
-                            <Input
-                                onChange={(e: any) => setValue(e.target.value)}
-                                p={4} type="number" placeholder="Enter shares to purchase" mb={4} />
-
-                            <Button
-                                colorScheme="blue"
-                                w="full"
-                                bg={COLORS.blue}
-                                disabled={((value && JSON.parse(value)) ?? 0) > 0 ? false : true}
-                                onClick={() => user && user.id ? buyshare((temporary.amount / temporary.shares) * ((value && JSON.parse(value)) ?? 0)) : router.push("/auth/login")}
-                                borderRadius="md"
-                            >
-                                Purchase Shares
-                            </Button>
-                            {open && <IsDepositModel />}
                         </Box>
+                        <TransactionSingleTable />
                     </SimpleGrid>
                 </Box >}
         </DashboardLayout >

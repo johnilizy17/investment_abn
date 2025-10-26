@@ -114,7 +114,7 @@ const SignUpForm = () => {
                                 id='remember-me'
                                 checked={rememberMe}
                             />
-                            <Center justifyContent={"start"} ml={3} mb={0} cursor="pointer" onClick={() => router.push("/terms")} flexWrap="wrap" fontWeight="400" fontSize="12px" >
+                            <Center justifyContent={"start"} ml={3} mb={0} cursor="pointer" onClick={() => router.push("/term")} flexWrap="wrap" fontWeight="400" fontSize="12px" >
                                 <Box>By continuing you are indicating that you agree </Box>
                                 <Box display="flex" ml="5px">{" "} to the <Box style={{ color: COLORS.blue, margin: "0 1px" }}>Terms</Box></Box>
                                 <Box> and </Box>

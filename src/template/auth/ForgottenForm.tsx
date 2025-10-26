@@ -18,6 +18,10 @@ import { COLORS } from "@/utils/theme";
 import RightArrowIcon from "@/components/asset/RightArrowIcon";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { authLogin, authVerifyEmail } from "@/url/redux/slices/authSlice";
+import ROUTES from "@/utils/ROUTES";
+import useCustomToast from "@/hooks/useCustomToast";
 
 const ForgottenForm = () => {
     const validationSchema = Yup.object({
@@ -26,9 +30,10 @@ const ForgottenForm = () => {
             .required('Email is required')
             .max(255, 'Email is too long'),
     });
+    const dispatch = useDispatch()
 
     const MotionBox = motion(Box);
-
+    const showToast = useCustomToast();
 
     const [screenHeight, setScreenHeight] = useState<number>(0);
 
@@ -51,29 +56,22 @@ const ForgottenForm = () => {
     const router = useRouter()
 
     const initiateLogin = async (values: any, { setSubmitting }: any) => {
-        // try {
+        try {
 
-        setSubmitting(true);
+            setSubmitting(true);
 
+            await dispatch(authVerifyEmail(values) as any).unwrap()
+                .then(() => {
+                    showToast('OTP successful sent', 'success');
+                    router.push("/auth/otp")
+                });
+        } catch (error: any) {
 
-        // const loginData = {
-        //     email: values.email.trim().toLowerCase(),
-        //     password: values.password,
-        // };
-        router.push("/auth/otp")
-        //   await dispatch(authLogin(loginData) as any).unwrap()
-        //     .then(() => {
-        //       showToast('Login successful', 'success');
-        //       router.push(ROUTES.dashboard);
-        //     });
-        // } catch (error: any) {
-        //   rateLimiter.incrementAttempts(values.email);
+            showToast('Email does not exist', 'error');
 
-        //   showToast(error?.message || 'Login failed', 'error');
-
-        //   console.error('Login error:', error);
-        setSubmitting(false);
-        // }
+            console.error('Login error:', error);
+            setSubmitting(false);
+        }
     };
 
 
@@ -92,7 +90,7 @@ const ForgottenForm = () => {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                     >
 
-                        <VStack  mt={"20px"} align="center">
+                        <VStack mt={"20px"} align="center">
                             <Box w='full'>
                                 <CustomInput
                                     label='Email Address'

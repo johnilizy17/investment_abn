@@ -98,9 +98,9 @@ export default function Footer() {
                             </Text>
                             <Stack gap={1} fontSize="sm">
                                 <Link>Nigeria</Link>
-                                <Link>About Us</Link>
-                                <Link>FAQ</Link>
-                                <Link>Terms</Link>
+                                <Link href="/about">About Us</Link>
+                                <Link href="/contact">FAQ</Link>
+                                <Link href="/term">Terms</Link>
                             </Stack>
                         </GridItem>
                     </Grid>

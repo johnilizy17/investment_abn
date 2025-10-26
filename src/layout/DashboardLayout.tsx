@@ -13,6 +13,13 @@ export default function NoAuthLayout({ children, title }: { children: any, title
     useEffect(() => {
         dispatch(getAssetAll({ page: 1, status: 1, title: "" }) as any)
         dispatch(getWallet("") as any)
+        // Set interval to refresh every 5 seconds
+        const interval = setInterval(() => {
+            dispatch(getWallet("") as any);
+        }, 5000);
+
+        // Cleanup interval on unmount
+        return () => clearInterval(interval);
     }, [])
     return (
         <>

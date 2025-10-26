@@ -16,7 +16,7 @@ import RightArrowIcon from "@/components/asset/RightArrowIcon";
 import { motion, useAnimation } from "framer-motion";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { authLogin } from "@/url/redux/slices/authSlice";
+import { authLogin, getWallet } from "@/url/redux/slices/authSlice";
 import useCustomToast from "@/hooks/useCustomToast";
 import ROUTES from "@/utils/ROUTES";
 
@@ -53,7 +53,9 @@ const LoginInForm = () => {
             };
 
             await dispatch(authLogin(loginData) as any).unwrap()
-                .then((a: any) => {
+                .then(async (a: any) => {
+                    await dispatch(getWallet("") as any)
+
                     router.push(ROUTES.dashboard);
                     showToast('Login successful', 'success');
                 });

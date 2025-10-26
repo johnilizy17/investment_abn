@@ -32,6 +32,8 @@ export default function InvestmentDetails() {
     const [open, setOpen] = useState(false)
     const { user, wallet } = useSelector((a: { auth: { user: any, wallet: any } }) => a.auth)
     const { temporary } = useSelector((a: { asset: { temporary: any } }) => a.asset)
+    const [asset, setAsset] = useState<any>({})
+    const { investment, properties } = useSelector((a: { asset: { investment: any, properties: any } }) => a.asset)
     const showMessage = useCustomToast();
 
     async function buyshare(a: number) {
@@ -40,8 +42,8 @@ export default function InvestmentDetails() {
                 setLoading(true)
                 try {
                     setOpen(false)
-                    const amount = ((temporary.amount / temporary.shares) * ((value && JSON.parse(value)) ?? 0))
-                    const asset = await createAsset({ assetId: temporary.id, shares: (value && JSON.parse(value)), amount: amount, })
+                    const amount = ((temporary.amount / temporary.shares) * (value ? JSON.parse(value) : 0))
+                    // const asset = await createAsset({ assetId: temporary.id, shares: (value && JSON.parse(value)), amount: amount, })
                     showMessage("Properties successfully purchase", "success")
                     router.push("/dashboard")
                 } catch (e: any) {
@@ -59,13 +61,25 @@ export default function InvestmentDetails() {
 
     async function fetchDetails() {
         setLoading(true)
-        const path = router.query && router.query.id
-        if (path) await dispatch(getAssetSingle(path) as any)
-        setLoading(false)
+        try {
+            const path = router.query && router.query.id && router.query.id
+            if (path){ await dispatch(getAssetSingle(path) as any)
+
+            setLoading(false)}
+        } catch (e: any) {
+
+        }
     }
     useEffect(() => {
         fetchDetails()
     }, [router.query && router.query.id])
+
+    useEffect(() => {
+        if (temporary && temporary.id) {
+            const filtered = properties.asset.filter((item: any) => item.userAssets.assetId === temporary.id)
+            setAsset(filtered[0].userAssets)
+        }
+    }, [temporary])
     return (
         <DashboardLayout title="Dashboard - Land Banking">
             <Navbar />
@@ -131,44 +145,39 @@ export default function InvestmentDetails() {
                             <Heading fontSize="lg" mb={4}>Investment Details</Heading>
 
                             <Flex justify="space-between" mb={2}>
-                                <Text color="gray.600">Share price</Text>
-                                <Text fontWeight="semibold">{cashFormat(temporary.amount / temporary.shares)}</Text>
-                            </Flex>
-                            <Flex justify="space-between" mb={2}>
-                                <Text color="gray.600">Total Value</Text>
-                                <Text fontWeight="semibold">{cashFormat(temporary.amount)}</Text>
+                                <Text color="gray.600">Share price owned</Text>
+                                <Text fontWeight="semibold">{cashFormat(asset.amount)}</Text>
                             </Flex>
 
                             <Flex justify="space-between" mb={2}>
-                                <Text color="gray.600">Total Shares</Text>
-                                <Text fontWeight="semibold">{cashFormat2(temporary.shares - temporary.payment)}</Text>
+                                <Text color="gray.600">Total Shares Owned</Text>
+                                <Text fontWeight="semibold">{cashFormat2(asset.shares)}</Text>
                             </Flex>
 
                             <Flex justify="space-between" mb={4}>
-                                <Text color="gray.600">Shares Available</Text>
-                                <Text fontWeight="semibold"> {Math.round(((temporary.amount - temporary.payment) / (temporary.amount / temporary.shares)))}</Text>
+                                <Text color="gray.600">Total Payment <br /> <span style={{ fontSize: 9, color: COLORS.red }}>all payment will be return has a discount payment for the shares</span></Text>
+                                <Text fontWeight="semibold"> {cashFormat(asset.payment)}</Text>
                             </Flex>
 
                             < Separator mb={4} />
 
                             <Text fontSize="sm" mb={2} color="gray.600">
-                                Number of Shares {cashFormat((temporary.amount / temporary.shares) * ((value && JSON.parse(value)) ?? 0))}/<span style={wallet.withdrawal_balance && (wallet.withdrawal_balance - ((temporary.amount / temporary.shares) * ((value && JSON.parse(value)) ?? 0))) > 0 ? { color: COLORS.blue } : { color: COLORS.red }}> {wallet.withdrawal_balance ? cashFormat(wallet.withdrawal_balance - ((temporary.amount / temporary.shares) * ((value && JSON.parse(value)) ?? 0))) : cashFormat((temporary.amount / temporary.shares) * ((value && JSON.parse(value)) ?? 0))}</span>
+                                Number of Shares {cashFormat2(asset.shares - (value ? JSON.parse(value) : 0))}/<span style={wallet.withdrawal_balance && (wallet.withdrawal_balance + (value ? JSON.parse(value) : 0)) > 0 ? { color: COLORS.blue } : { color: COLORS.red }}> {wallet.withdrawal_balance ? (((temporary.amount / temporary.shares)*(value ? JSON.parse(value) : 0)) - asset.payment) : 0}</span>
                             </Text>
                             <Input
                                 onChange={(e: any) => setValue(e.target.value)}
                                 p={4} type="number" placeholder="Enter shares to purchase" mb={4} />
 
                             <Button
-                                colorScheme="blue"
+                                colorScheme="red"
                                 w="full"
-                                bg={COLORS.blue}
-                                disabled={((value && JSON.parse(value)) ?? 0) > 0 ? false : true}
-                                onClick={() => user && user.id ? buyshare((temporary.amount / temporary.shares) * ((value && JSON.parse(value)) ?? 0)) : router.push("/auth/login")}
+                                bg={COLORS.red}
+                                disabled={(value ? JSON.parse(value) : 0) > 0 ? false : true}
+                                onClick={() => user && user.id ? buyshare((temporary.amount / temporary.shares) * (value ? JSON.parse(value) : 0)) : router.push("/auth/login")}
                                 borderRadius="md"
                             >
-                                Purchase Shares
+                                Sell Shares
                             </Button>
-                            {open && <IsDepositModel />}
                         </Box>
                     </SimpleGrid>
                 </Box >}

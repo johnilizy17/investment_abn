@@ -18,6 +18,7 @@ const initialState: AuthState = {
     user: STORAGE.get(LOCAL_STORAGE_KEYS.USER) || null,
     wallet: STORAGE.get(LOCAL_STORAGE_KEYS.WALLET) || null,
     isError: false,
+   history:[],
     temporary: {}
 };
 
@@ -116,6 +117,20 @@ export const getWallet = createAsyncThunk(
     }
 );
 
+export const getTransactionHistory = createAsyncThunk(
+    'wallet/single',
+    async (payload: any, { rejectWithValue }) => {
+        try {
+            const response = await userRequest.get(`userAsset/single/${payload}`);
+            return response.data;
+        } catch (error: any) {
+            console.error('Error during Transaction:', error.response?.data.message);
+            return rejectWithValue(
+                error.response?.data.message || 'Failed to fetch Transaction history'
+            );
+        }
+    }
+);
 
 
 // Register User
@@ -233,7 +248,7 @@ export const authLogin = createAsyncThunk(
 
 export const authForgottenPassword = createAsyncThunk(
     'auth/verify-otp',
-    async (payload: EmailDto, { rejectWithValue }) => {
+    async (payload: any, { rejectWithValue }) => {
         try {
             const response = await publicRequest.post(
                 `auth/verify-otp`,
@@ -292,7 +307,7 @@ export const authVerifyEmail = createAsyncThunk(
     'auth/verifyEmail',
     async (payload: EmailDto, { rejectWithValue }) => {
         try {
-            const { data } = await userRequest.post(
+            const data = await userRequest.post(
                 `auth/forgot-password`,
                 payload
             );
@@ -368,6 +383,10 @@ const authSlice = createSlice({
                 STORAGE.set(LOCAL_STORAGE_KEYS.WALLET, action.payload.data);
                 state.wallet = action.payload.data;
             })
+
+            .addCase(getTransactionHistory.fulfilled, (state, action) => {
+                state.history = action.payload.data;
+            })
             .addCase(authLogin.rejected, (state) => {
                 state.isLoading = false;
                 state.isError = true;
@@ -382,7 +401,8 @@ interface AuthState {
     user: any;
     isError: boolean;
     temporary: any,
-    wallet: any[]
+    wallet: any[],
+    history:any[],
 }
 
 interface RefreshTokenResponse {

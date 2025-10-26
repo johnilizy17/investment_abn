@@ -80,14 +80,14 @@ export default function LandCard({
                     </Box>
                     <Box
                         color={
-                            ((amount - payment) / (amount / shares)) < 20
+                            ((shares - payment)) < 20
                                 ? "red"
-                                : ((amount - payment) / (amount / shares)) < 50
+                                : ((shares - payment)) < 50
                                     ? "black"
                                     : "blue"
                         }
                     >
-                        {Math.round(((amount - payment) / (amount / shares)))}
+                        {Math.round(((shares - payment)))}
                     </Box>
                 </Center>
 

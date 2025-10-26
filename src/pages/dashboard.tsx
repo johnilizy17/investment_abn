@@ -44,7 +44,7 @@ export default function MarketplacePage() {
                                     <LandCard key={idx} {...item} />
                                 ))}
                             </SimpleGrid>
-                        </Tabs.Content>
+                        </Tabs.Content> 
                     </Tabs.Root>
 
                 </Container>

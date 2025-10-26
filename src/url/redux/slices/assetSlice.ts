@@ -7,6 +7,7 @@ import { LOCAL_STORAGE_KEYS } from '@/utils/constants';
 const initialState: assetState = {
   investment: { pagination: {}, data: [] },
   asset: STORAGE.get(LOCAL_STORAGE_KEYS.SUB) || [],
+  properties: { asset: [] },
   temporary: {}
 };
 
@@ -27,7 +28,7 @@ export const getAssetSingle = createAsyncThunk(
   async (_: any, { rejectWithValue }) => {
     try {
       const response = await userRequest.get(`/investment/id?id=${_}`);
-       return response.data.data[0];
+      return response.data.data[0];
     } catch (error: any) {
       return rejectWithValue(error.response?.data || 'Password change failed');
     }
@@ -52,8 +53,10 @@ export const getAssetAll = createAsyncThunk(
   async (payload: any, { rejectWithValue }) => {
     try {
       const investment = await userRequest.get(`/investment/stats?page=${payload.page}&title=${payload.title}&status=2`);
+      const asset = await userRequest.get(`/userAsset`);
       return {
         investment: investment.data.data,
+        asset: asset.data.data
       };
     } catch (error: any) {
       return rejectWithValue(error.response?.data || 'Password change failed');
@@ -109,6 +112,7 @@ const assetSlice = createSlice({
     })
       .addCase(getAssetAll.fulfilled, (state, action) => {
         state.investment = action.payload.investment;
+        state.properties = action.payload.asset;
       })
       .addCase(getAssetSingle.fulfilled, (state, action) => {
         state.temporary = action.payload;
@@ -122,6 +126,7 @@ const assetSlice = createSlice({
 interface assetState {
   investment: any;
   asset: any;
+  properties: any;
   temporary: any
 };
 

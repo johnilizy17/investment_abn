@@ -9,10 +9,10 @@ import {
 import { useSelector } from "react-redux";
 import { cashFormat, cashFormat2 } from "@/utils/cashformat"
 
-export default function TransactionTable() {
+export default function TransactionSingleTable() {
   const bg = "gray.800"
   const border = "gray.700"
-  const { properties } = useSelector((a: { asset: { investment: any, properties: any } }) => a.asset)
+  const { history } = useSelector((a: { auth: { history:any } }) => a.auth)
 
   return (
     <Box
@@ -34,7 +34,7 @@ export default function TransactionTable() {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {properties && properties.transaction && properties.transaction.length > 0.1 ? properties.transaction.map((tx: any) => (
+          {history && history.length > 0.1 ? history.map((tx: any) => (
             <Table.Row key={tx.id}>
               <Table.Cell p="20px">{tx.walletTransactions.created_at}</Table.Cell>
               <Table.Cell p="20px">{tx.investments ? tx.investments.title : "No Properties"}</Table.Cell>
