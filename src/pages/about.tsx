@@ -88,8 +88,7 @@ export default function AboutPage() {
                                 About Us
                             </Heading>
                             <Text fontSize={{ base: "md", md: "lg" }} color="gray.600" textAlign="center" maxW="3xl">
-                                We're democratizing land investment by making it accessible, transparent, and profitable for
-                                everyone through fractional ownership.
+                             {"We're democratizing land investment by making it accessible, transparent, and profitable for everyone through fractional ownership."}
                             </Text>
                         </VStack>
                     </Container>

@@ -23,7 +23,7 @@ export const STORAGE = {
     if (value !== null && value !== undefined && value !== "undefined") {
       try {
         result = JSON.parse(value);
-      } catch (e) {
+      } catch (e:any) {
         result = null;
       }
     } else {

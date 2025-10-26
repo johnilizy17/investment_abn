@@ -41,8 +41,7 @@ export default function ContactSection() {
                             Get in Touch
                         </Heading>
                         <Text fontSize={{ base: "md", md: "lg" }} textAlign="center" maxW="3xl">
-                            Have questions about our land payment plans? We're here to help you start
-                            your journey to land ownership.
+                           {" Have questions about our land payment plans? We're here to help you start your journey to land ownership."}
                         </Text>
                     </VStack>
                 </Container>
@@ -97,7 +96,7 @@ export default function ContactSection() {
                                 Contact Information
                             </Heading>
                             <Text color="gray.600">
-                                Reach out to us through any of the following channels. We're available Monday to Friday, 9 AM to 6 PM.
+                          {"Reach out to us through any of the following channels. We're available Monday to Friday, 9 AM to 6 PM."}
                             </Text>
                         </Box>
 
