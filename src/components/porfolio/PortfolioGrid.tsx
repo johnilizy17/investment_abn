@@ -24,18 +24,18 @@ const PortfolioGrid = () => {
     const { wallet } = useSelector((a: { auth: { wallet: any } }) => a.auth)
     const { properties } = useSelector((a: { asset: { investment: any, properties: any } }) => a.asset)
 
-    const shares = properties.asset && properties.asset.length > 0.1 ? sumUserAssets(properties.asset) : { totalShares: 0, averagePercentage: 0 }
+    const shares = properties && properties.asset && properties.asset.length > 0.1 ? sumUserAssets(properties.asset) : { totalShares: 0, averagePercentage: 0 }
 
     const stats = [
         {
             title: "Total Invested",
-            value: cashFormat(wallet.investment_balance) ?? cashFormat(0),
+            value: wallet.investment_balance ? cashFormat(wallet.investment_balance) : cashFormat(0),
             subtitle: `Across ${properties && properties.asset ? properties.asset.length : 0} land banks`,
             icon: "N",
         },
         {
             title: "Main Balance",
-            value: cashFormat(wallet.withdrawal_balance) ?? cashFormat(0),
+            value: wallet.investment_balance ? cashFormat(wallet.withdrawal_balance) : cashFormat(0),
             subtitle: cashFormat(wallet.payout) ?? cashFormat(0),
             icon: "graph",
             highlight: true,
