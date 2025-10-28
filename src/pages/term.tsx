@@ -1,5 +1,5 @@
 import Navbar from "@/components/landingpage/LandingPageHeader";
-import NoAuthLayout from "@/layout/DashboardLayout";
+import NoAuthLayout from "@/layout/NoAuthLayout";
 import { Box, Center, Heading, Separator, Text, VStack } from "@chakra-ui/react";
 
 export default function InvestmentAgreement() {
