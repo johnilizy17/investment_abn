@@ -385,9 +385,9 @@ const authSlice = createSlice({
                     STORAGE.set(LOCAL_STORAGE_KEYS.WALLET, action.payload.data);
 
                     state.wallet = action.payload.data
-                }else{
-                   STORAGE.set(LOCAL_STORAGE_KEYS.WALLET, { withdrawal_balance: 0, investment_balance: 0 });
- state.wallet = { withdrawal_balance: 0, investment_balance: 0 }
+                } else {
+                    STORAGE.set(LOCAL_STORAGE_KEYS.WALLET, { withdrawal_balance: 0, investment_balance: 0 });
+                    state.wallet = { withdrawal_balance: 0, investment_balance: 0 }
                 };
             })
 
