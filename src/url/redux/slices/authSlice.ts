@@ -107,6 +107,7 @@ export const getWallet = createAsyncThunk(
     async (payload: any, { rejectWithValue }) => {
         try {
             const response = await userRequest.get(`wallet`);
+            console.log(response.data)
             return response.data;
         } catch (error: any) {
             console.error('Error during authForgottenPassword:', error.response?.data.message);
@@ -381,8 +382,13 @@ const authSlice = createSlice({
             })
 
             .addCase(getWallet.fulfilled, (state, action) => {
-                STORAGE.set(LOCAL_STORAGE_KEYS.WALLET, action.payload.data);
-                state.wallet = action.payload.data;
+                if (action.payload.data) {
+                    STORAGE.set(LOCAL_STORAGE_KEYS.WALLET, action.payload.data);
+
+                    state.wallet = action.payload.data
+                }else{
+                    state.wallet = { withdrawal_balance: 0, investment_balance: 0 }
+                };
             })
 
             .addCase(getTransactionHistory.fulfilled, (state, action) => {
@@ -402,7 +408,7 @@ interface AuthState {
     user: any;
     isError: boolean;
     temporary: any,
-    wallet: any[],
+    wallet: { withdrawal_balance: 0, investment_balance: 0 },
     history: any[],
 }
 

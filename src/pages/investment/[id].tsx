@@ -44,10 +44,11 @@ export default function InvestmentDetails() {
                     const asset = await createAsset({ assetId: temporary.id, shares: (value && JSON.parse(value)), amount: amount, })
                     showMessage("Properties successfully purchase", "success")
                     router.push("/dashboard")
+
+                    setLoading(false)
                 } catch (e: any) {
                     showMessage(e.response.data.message || "Properties failed to be purchase", "success")
                 }
-                setLoading(false)
             } else {
                 setOpen(true)
                 showMessage("Insuffiecient Account", "info")
@@ -60,8 +61,10 @@ export default function InvestmentDetails() {
     async function fetchDetails() {
         setLoading(true)
         const path = router.query && router.query.id
-        if (path) await dispatch(getAssetSingle(path) as any)
-        setLoading(false)
+        if (path) {
+            await dispatch(getAssetSingle(path) as any)
+            setLoading(false)
+        }
     }
     useEffect(() => {
         fetchDetails()
