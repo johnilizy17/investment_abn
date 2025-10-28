@@ -2,17 +2,24 @@ import Head from 'next/head';
 import React, { useEffect } from 'react';
 import Footer from './Footer';
 import { getAssetAll } from '@/url/redux/slices/assetSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getWallet } from '@/url/redux/slices/authSlice';
+import { useRouter } from 'next/router';
 
 export default function NoAuthLayout({ children, title }: { children: any, title: string }) {
 
 
     const dispatch = useDispatch();
+    const router = useRouter();
+    const { user } = useSelector((a: { auth: { user: any } }) => a.auth)
+
 
     useEffect(() => {
         dispatch(getAssetAll({ page: 1, status: 1, title: "" }) as any)
         dispatch(getWallet("") as any)
+        if (user && user.id) {
+
+        } else { router.push("/auth/login") }
         // Set interval to refresh every 5 seconds
         const interval = setInterval(() => {
             dispatch(getWallet("") as any);

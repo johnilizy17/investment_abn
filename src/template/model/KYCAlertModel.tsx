@@ -32,7 +32,7 @@ export const KYCAlertModel = () => {
                 <Drawer.Positioner>
                     <Drawer.Content>
                         <Drawer.Header>
-                            <Drawer.Title p={4}>         {page === 1 ? "Create Topic" : "Create Sub-Topic"}
+                            <Drawer.Title p={4}>         Complete Your KYC to Unlock Full AccessS
                             </Drawer.Title>
                         </Drawer.Header>
                         <Drawer.Body px={4}>

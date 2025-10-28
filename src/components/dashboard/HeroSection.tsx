@@ -12,7 +12,7 @@ export default function HeroSection() {
     return (
         <Box textAlign="left" pb={10} mt="80px">
             <Heading fontSize={["20px", "48px"]} mb={["8px", "20px"]}>
-                Welcome back, {user.lastName}
+                Welcome back, {user && user.lastName}
             </Heading>
             <Text color={COLORS.gray} fontSize={["12px", "20px"]}>
                 Here’s an overview of your land investment portfolio

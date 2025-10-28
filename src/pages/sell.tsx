@@ -9,14 +9,14 @@ import { EmptyState } from "@/utils/EmptyState";
 import { Box, Center, Container, SimpleGrid } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-
+import DashboardLayout from "@/layout/DashboardLayout";
 
 export default function Sells() {
 
     const { investment } = useSelector((a: { asset: { investment: any } }) => a.asset)
 
     return (
-        <NoAuthLayout title="Investment on sells - Land Banking">
+        <DashboardLayout title="Investment on sells - Land Banking">
             <Navbar />
             <Center>
                 <Container maxW="1200px" px={4} py={10}>
@@ -32,6 +32,6 @@ export default function Sells() {
                     </SimpleGrid>
                 </Container>
             </Center>
-        </NoAuthLayout>
+        </DashboardLayout>
     );
 }

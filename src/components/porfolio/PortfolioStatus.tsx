@@ -146,7 +146,7 @@ const PortfolioStatus: React.FC = () => {
             </Heading>
 
             <Stack gap="20px">
-                {properties && properties.asset.length > 0.1 ?
+                {properties && properties.asset && properties.asset.length > 0.1 ?
                     properties.asset.map((inv: any, idx: number) => (
                         <InvestmentCard key={idx} id={inv.investments.id} shares={inv.userAssets.shares} title={inv.investments.title} subtitle={inv.investments.details} currentValue={inv.investments.amount} invest={inv.userAssets.amount} returnValue={inv.investments.percentage} status={inv.investments.status} progress={((inv.investments.payment * 100) / inv.investments.shares)} />
                     ))

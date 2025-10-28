@@ -18,7 +18,7 @@ const initialState: AuthState = {
     user: STORAGE.get(LOCAL_STORAGE_KEYS.USER) || null,
     wallet: STORAGE.get(LOCAL_STORAGE_KEYS.WALLET) || null,
     isError: false,
-   history:[],
+    history: [],
     temporary: {}
 };
 
@@ -338,6 +338,7 @@ const authSlice = createSlice({
             state.temporary = action.payload;
         },
         logout: (state) => {
+            window.location.href = '/auth/login';
             state.token = null;
             state.refreshToken = null;
             state.user = {};
@@ -402,7 +403,7 @@ interface AuthState {
     isError: boolean;
     temporary: any,
     wallet: any[],
-    history:any[],
+    history: any[],
 }
 
 interface RefreshTokenResponse {

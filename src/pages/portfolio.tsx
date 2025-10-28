@@ -5,13 +5,13 @@ import PortfolioGrid from "@/components/porfolio/PortfolioGrid";
 import PortfolioHeader from "@/components/porfolio/PortfolioHeader";
 import PortfolioPerformance from "@/components/porfolio/PortfolioPerformance";
 import PortfolioStatus from "@/components/porfolio/PortfolioStatus";
-import NoAuthLayout from "@/layout/NoAuthLayout";
+import DashboardLayout from "@/layout/DashboardLayout";
 import { Box, Center, Container, SimpleGrid } from "@chakra-ui/react";
 
 export default function PortfolioPage() {
   
     return (
-        <NoAuthLayout title="Marektplace - Land Banking">
+        <DashboardLayout title="Marektplace - Land Banking">
             <Navbar />
             <Center>
                 <Container mt="100px" maxW="1200px" px={4} pb={10}>
@@ -21,6 +21,6 @@ export default function PortfolioPage() {
                     <PortfolioStatus />
                 </Container>
             </Center>
-        </NoAuthLayout>
+        </DashboardLayout>
     );
 }
