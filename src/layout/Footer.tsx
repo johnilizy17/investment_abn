@@ -48,20 +48,20 @@ export default function Footer() {
                             <Stack gap={1} fontSize="sm">
                                 <HStack>
                                     <MdEmail />
-                                    <Link href="mailto:info@narinoh.com" _hover={{ textDecoration: "underline" }}>
-                                        info@narinoh.com
-                                    </Link>
-                                </HStack>
-                                <HStack>
-                                    <MdEmail />
-                                    <Link href="mailto:narinoh.ab@gmail.com" _hover={{ textDecoration: "underline" }}>
-                                        narinoh.ab@gmail.com
+                                    <Link href="mailto:abnarinohsrealty@gmail.com" _hover={{ textDecoration: "underline" }}>
+                                        abnarinohsrealty@gmail.com
                                     </Link>
                                 </HStack>
                                 <HStack>
                                     <FaPhone />
-                                    <Link href="tel:+2348034477786" _hover={{ textDecoration: "underline" }}>
-                                        +2348034477786
+                                    <Link href="tel:+2349058511339" _hover={{ textDecoration: "underline" }}>
+                                        +2349058511339 {"(lagos)"}
+                                    </Link>
+                                </HStack>
+                                <HStack>
+                                    <FaPhone />
+                                    <Link href="tel:+2348151175414" _hover={{ textDecoration: "underline" }}>
+                                        +2348151175414 {"(lagos)"}
                                     </Link>
                                 </HStack>
                             </Stack>
@@ -75,7 +75,7 @@ export default function Footer() {
                                 REGISTERED ADDRESS
                             </Text>
                             <Text fontSize="sm" maxW="200px">
-                                Asheley Place Mall, Orchid Road, Lekki Peninsula 2
+                                9 Okun Ajah Complex off Abraham Adesanya okun Ajah Lagos.
                             </Text>
                         </GridItem>
 
