@@ -15,7 +15,7 @@ import {
     SimpleGrid,
 } from "@chakra-ui/react";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
-import NoAuthLayout from "@/layout/DashboardLayout";
+import NoAuthLayout from "@/layout/NoAuthLayout";
 import Navbar from "@/components/landingpage/LandingPageHeader";
 import { COLORS } from "@/utils/theme";
 
