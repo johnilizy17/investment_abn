@@ -21,7 +21,7 @@ import UserIcon from "@/components/asset/UserIcon";
 import { useRouter } from "next/router";
 import { motion, useAnimation } from "framer-motion";
 import { useDispatch } from "react-redux";
-import { authRegister, authRegisterTeacher, CompleteKYC } from "@/url/redux/slices/authSlice";
+import { authRegister, authRegisterTeacher, CompleteKYC, getWallet } from "@/url/redux/slices/authSlice";
 import useCustomToast from "@/hooks/useCustomToast";
 import ROUTES from "@/utils/ROUTES";
 import { CustomPhoneInput } from "../tools/CustomPhoneInput";
@@ -57,6 +57,7 @@ const KYCForm = () => {
             setSubmitting(true);
             const loginData = { ...values, next_kin_number: phone.replace("+", "") };
             await dispatch(CompleteKYC(loginData) as any).unwrap();
+            await dispatch(getWallet("")as any)
             router.push(ROUTES.dashboard);
             showToast('KYC successfully', 'success');
 
