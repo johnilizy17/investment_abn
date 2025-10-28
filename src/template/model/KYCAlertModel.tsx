@@ -15,8 +15,7 @@ export const KYCAlertModel = () => {
     const { wallet } = useSelector((a: { auth: { wallet: any } }) => a.auth)
 
     useEffect(() => {
-        console.log(wallet)
-        if (wallet) {
+        if (wallet && wallet.order_id) {
             setOpen(false)
         } else {
             setOpen(true)

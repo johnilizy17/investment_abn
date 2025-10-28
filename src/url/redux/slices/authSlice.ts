@@ -107,7 +107,6 @@ export const getWallet = createAsyncThunk(
     async (payload: any, { rejectWithValue }) => {
         try {
             const response = await userRequest.get(`wallet`);
-            console.log(response.data)
             return response.data;
         } catch (error: any) {
             console.error('Error during authForgottenPassword:', error.response?.data.message);
