@@ -63,7 +63,8 @@ export default function InvestmentDetails() {
         setLoading(true)
         try {
             const path = router.query && router.query.id && router.query.id
-            if (path){ await dispatch(getAssetSingle(path) as any)
+            if (path){
+                 await dispatch(getAssetSingle(path) as any)
 
             setLoading(false)}
         } catch (e: any) {
