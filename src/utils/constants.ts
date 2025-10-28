@@ -18,6 +18,7 @@ export const navRouters = [
   { name: "Dashboard", nav: "/dashboard/", auth: true, admin: false, icon: MdDashboard },
   { name: "Profile", nav: "/dashboard/profile", auth: true, admin: false, icon: MdPerson },
   { name: "Marketplace", nav: "/marketplace", auth: false, admin: false, icon: MdPolicy },
+  { name: "Sell", nav: "/sell", auth: false, admin: false, icon: MdPolicy },
   { name: "Portfolio", nav: "/portfolio", auth: false, admin: false, icon: MdGavel },
   { name: "Terms", nav: "/term", auth: false, admin: false, icon: MdGavel }
 ];

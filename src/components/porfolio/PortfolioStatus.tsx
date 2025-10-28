@@ -111,10 +111,10 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({
                     </Box>
                 </HStack>
                 <Center w={["full"]} gap={["10px", "30px"]} mt="10px" justifyContent={"space-between"}>
-                    {status === 2 && <Button w="calc(50% - 100px)" onClick={() => router.push(`/investment/${id}`)} size="sm" p={"10px"} bg={COLORS.blue} colorPalette="blue">
+                    {status === 2 && <Button w="calc(50% - 100px)" minW={"100px"} onClick={() => router.push(`/investment/${id}`)} size="sm" p={"10px"} bg={COLORS.blue} colorPalette="blue">
                         Add Share
                     </Button>}
-                    <Button size="sm" w="calc(50% - 100px)" p={"10px"} bg="transparent" borderWidth={"1px"} cursor="pointer" onClick={() => router.push(`/asset/view/${id}`)} borderColor={COLORS.black} color={COLORS.black}>
+                    <Button size="sm" w="calc(50% - 100px)" minW={"100px"} p={"10px"} bg="transparent" borderWidth={"1px"} cursor="pointer" onClick={() => router.push(`/asset/sell/${id}`)} borderColor={COLORS.black} color={COLORS.black}>
                         Sell shares
                     </Button>
                 </Center>
