@@ -36,7 +36,7 @@ export default function AuthLayout({ children }: any) {
                 <Box display={"flex"} flexDir={"column"} justifyContent={"space-between"} h="100vh" maxW="md">
                     <Box>
                         <Heading fontSize={{ base: "60px", md: "60px" }} lineHeight={"66px"} fontWeight="bold">
-                            Welcome to AB Narinohs
+                            Welcome to AB Narinohs Ltd
                         </Heading>
                         <Text mt={4} fontSize={"18px"} opacity={0.9}>
                             Your gateway to smarter, more secure investing.
