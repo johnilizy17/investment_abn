@@ -18,7 +18,8 @@ export default function HomeBanner() {
                     Now Accepting new investors
                 </Center>
                 <Box fontWeight={"500"} textAlign={"center"} lineHeight={"40px"} mt="32px" color="#fff" fontSize={["28px", "48px"]}>
-                    Invest In Land Banks - Own Your Land In <br />Shares
+                    Invest in Landbanking
+<br />Own a tangible Land shares
                 </Box>
                 <Box fontWeight={"400"} fontSize={["16px", "20px"]} lineHeight={["17px", "22px"]} mt={["30px", "35px"]} color="#FFF" maxW={"717px"} textAlign={"center"}>
                     Access prime land investment opportunities through fractional ownership. Build wealth with tangible, appreciating assets without the complexity of direct real estate ownership.

@@ -8,7 +8,7 @@ export default function HeroSection() {
                 Land Bank Marketplace
             </Heading>
             <Text color={COLORS.gray} fontSize={["12px", "20px"]}>
-                Discover and invest in verified land development opportunities across Texas
+                Discover and invest in verified land development opportunities across Nigeria
             </Text>
         </Box>
     );
