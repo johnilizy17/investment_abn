@@ -40,9 +40,9 @@ export default function LandCard({
                 {status == 1 ? "Pending" : status == 2 ? "Active" : "Funding"}
             </Badge>
             <Heading size="md">{title}</Heading>
-            <Text color={COLORS.gray} fontSize="sm">
+          { location && <Text color={COLORS.gray} fontSize="sm">
                 {location ?? "Non"}
-            </Text>
+            </Text>}
             <Text mt={3} mb={4} color={COLORS.gray} fontSize="sm">
                 {details}
             </Text>
