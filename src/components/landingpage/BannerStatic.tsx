@@ -4,10 +4,10 @@ export default function BannerStatic() {
   const direction = useBreakpointValue({ base: "column", md: "row" });
 
   const stats = [
-    { number: "₦2.4M+", label: "Total Invested" },
-    { number: "1,250+", label: "Active Investors" },
-    { number: "45", label: "Land Projects" },
-    { number: "12.3%", label: "Avg. Annual Return" },
+    { number: "₦2.4M+", label: "Total Invested", location:"Lagos" },
+    { number: "1,250+", label: "Active Investors", location:"Ibadan" },
+    { number: "45", label: "Land Projects", location:"Ogun" },
+    { number: "12.3%", label: "Avg. Annual Return", location:"Kwara" },
   ];
 
   return (
@@ -33,6 +33,7 @@ export default function BannerStatic() {
               {item.number}
             </Text>
             <Text fontSize={"13px"} fontWeight={"400"}>{item.label}</Text>
+             <Text fontSize={"13px"} mt="5px" fontStyle={"italic"} fontWeight={"400"}>{item.location}</Text>
           </Box>
         ))}
       </Flex>

@@ -30,6 +30,7 @@ export default function SmartLandInvestment() {
                 bg="white"
                 w="full"
                 maxW="1200px"
+                p={[4, 16]}
                 borderRadius="2xl"
                 boxShadow="md"
                 gap={10}
@@ -45,7 +46,7 @@ export default function SmartLandInvestment() {
                         informed land investment decisions
                     </Text>
 
-                    <List.Root gap="3" color={COLORS.black} mb={6}>
+                    <List.Root ml={4} gap="3" color={COLORS.black} mb={6}>
                         <List.Item>
                             Diversified land portfolio across multiple locations
                         </List.Item>
