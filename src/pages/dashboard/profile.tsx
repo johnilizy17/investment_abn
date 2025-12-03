@@ -11,11 +11,14 @@ import {
     HStack,
     Spacer,
     Separator,
+    Center,
+    IconButton,
 } from "@chakra-ui/react";
-import { Edit2, Eye, EyeOff, Shield, ShoppingBag, ChevronRight } from "lucide-react";
+import { Edit2, Eye, EyeOff, Shield, ShoppingBag, ChevronRight, BackpackIcon } from "lucide-react";
 import { useSelector } from "react-redux";
 import { cashFormat } from "@/utils/cashformat";
 import { useRouter } from "next/router";
+import { FaArrowLeft, FaBackward } from "react-icons/fa";
 
 export default function ProfilePage() {
     const [showBvn, setShowBvn] = useState(false);
@@ -33,10 +36,14 @@ export default function ProfilePage() {
                 pb={6}
                 textAlign="center"
             >
-                <Text fontWeight="bold" color="#001C55" mb={4}>
-                    Profile
-                </Text>
-
+                <Center px={6} justifyContent={"space-between"}>
+                    <IconButton onClick={()=>router.back()}>
+                        <FaArrowLeft />
+                    </IconButton>
+                    <Text fontWeight="bold" color="#001C55" mb={4}>
+                        Profile
+                    </Text>
+                </Center>
                 {/* Profile Picture */}
                 <Box
                     mx="auto"
