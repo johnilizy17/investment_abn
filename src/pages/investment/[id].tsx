@@ -26,7 +26,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import ReactPlayer from "react-player";
 
 export default function InvestmentDetails() {
 
