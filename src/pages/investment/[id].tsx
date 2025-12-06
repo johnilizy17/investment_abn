@@ -17,11 +17,16 @@ import {
     Button,
     Separator,
     Center,
-    Spinner
+    Spinner,
+    IconButton,
+    Image,
+    Link
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import ReactPlayer from "react-player";
 
 export default function InvestmentDetails() {
 
@@ -33,6 +38,8 @@ export default function InvestmentDetails() {
     const { user, wallet } = useSelector((a: { auth: { user: any, wallet: any } }) => a.auth)
     const { temporary } = useSelector((a: { asset: { temporary: any } }) => a.asset)
     const showMessage = useCustomToast();
+    const [select, setSelect] = useState({ type: 1, item: temporary.left_image })
+    const [select2, setSelect2] = useState({ type: 1, item: temporary.left_image })
 
     async function buyshare(a: number) {
         if (wallet) {
@@ -67,8 +74,33 @@ export default function InvestmentDetails() {
         }
     }
     useEffect(() => {
+        if (temporary && temporary.left_image && temporary.left_image != "image") {
+            setSelect({ type: 1, item: temporary.left_image })
+        }
+        if (temporary && temporary.right_image && temporary.right_image != "image") {
+            setSelect({ type: 2, item: temporary.right_image })
+        }
+        if (temporary && temporary.front_image && temporary.front_image != "image") {
+            setSelect({ type: 3, item: temporary.front_image })
+        }
+        if (temporary && temporary.back_image && temporary.back_image != "image") {
+            setSelect({ type: 4, item: temporary.back_image })
+        }
         fetchDetails()
     }, [router.query && router.query.id])
+
+
+    function selectImageFix(a: number) {
+        if (a == 1) {
+            setSelect({ type: 1, item: temporary.left_image })
+        } else if (a == 2) {
+            setSelect({ type: 2, item: temporary.right_image })
+        } else if (a == 3) {
+            setSelect({ type: 3, item: temporary.front_image })
+        } else if (a == 4) {
+            setSelect({ type: 4, item: temporary.back_image })
+        }
+    }
     return (
         <DashboardLayout title="Dashboard - Land Banking">
             <Navbar />
@@ -85,6 +117,18 @@ export default function InvestmentDetails() {
                     </Box>
 
                     <SimpleGrid columns={{ base: 1, md: 2 }} gap={8}>
+                        <Box position="relative" my={4}>
+                            {select2.item > 1 ? <Image src={select.item} alt="3D House" w="full" h="300px" objectFit="cover" borderRadius="lg" /> : <Image src={select.item} alt="3D House" w="full" h="300px" objectFit="cover" borderRadius="lg" />}
+                            <Center mt="50px" gap={4}>
+                                {temporary && temporary.left_image && temporary.left_image != "image" && <Box borderWidth={2} padding={1} borderRadius={4} borderColor={select.type == 1 ? COLORS.blue : COLORS.gray}> <Image w={select.type == 1 ? "60px" : "50px"} onClick={() => selectImageFix(1)} src={temporary.left_image} /> </Box>}
+
+                                {temporary && temporary.right_image && temporary.right_image != "image" && <Box borderWidth={2} padding={1} borderRadius={4} borderColor={select.type == 2 ? COLORS.blue : COLORS.gray}> <Image w={select.type == 2 ? "60px" : "50px"} onClick={() => selectImageFix(2)} src={temporary.right_image} /> </Box>}
+
+                                {temporary && temporary.front_image && temporary.front_image != "image" && <Box borderWidth={2} padding={1} borderRadius={4} borderColor={select.type == 3 ? COLORS.blue : COLORS.gray}> <Image w={select.type == 3 ? "60px" : "50px"} onClick={() => selectImageFix(3)} src={temporary.front_image} /> </Box>}
+                                {temporary && temporary.back_image && temporary.back_image != "image" && <Box borderWidth={2} padding={1} borderRadius={4} borderColor={select.type == 4 ? COLORS.blue : COLORS.gray}> <Image w={select.type == 4 ? "60px" : "50px"} onClick={() => selectImageFix(4)} src={temporary.back_image} /> </Box>}
+                            </Center>
+                        </Box>
+
                         {/* Left Section */}
                         <VStack align="stretch" gap={6}>
                             {/* Project Overview */}
@@ -121,6 +165,16 @@ export default function InvestmentDetails() {
                                     <Text color="gray.700" fontWeight="semibold">{cashFormat(temporary.amount + ((temporary.amount * temporary.percentage) / 100))}</Text>
                                 </Flex>
                             </Box>
+                            <Link
+                                href={`https://www.google.com/maps/dir/?api=1&destination=${temporary.lat},${temporary.lng}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Button
+                                    p={4} >
+                                    Track the location live on Google Maps {">>>"}
+                                </Button>
+                            </Link>
                         </VStack>
 
                         {/* Right Section - Investment Card */}
