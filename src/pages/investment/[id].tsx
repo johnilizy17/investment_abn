@@ -144,7 +144,7 @@ export default function InvestmentDetails() {
                                     </Box>
                                     <Box>
                                         <Text fontWeight="400" fontSize={["12px", "16px"]} color={COLORS.gray}>Time line</Text>
-                                        <Text fontWeight="400" fontSize={["16px", "20px"]} mt={2} color={COLORS.black}>2–3 years</Text>
+                                        <Text fontWeight="400" fontSize={["16px", "20px"]} mt={2} color={COLORS.black}>{temporary.duration ? `${temporary.duration} month` : "2–3 years"} </Text>
                                     </Box>
                                     <Box>
                                         <Text fontWeight="400" fontSize={["12px", "16px"]} color={COLORS.gray}>Current Investors</Text>
