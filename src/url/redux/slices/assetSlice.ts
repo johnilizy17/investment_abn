@@ -3,6 +3,7 @@ import { userRequest, userFileUpload } from '@/url/api/server';
 import { AxiosResponse } from 'axios';
 import { STORAGE } from '@/utils/storage';
 import { LOCAL_STORAGE_KEYS } from '@/utils/constants';
+import { RootState } from '@/url/redux/store';
 
 const initialState: assetState = {
   investment: { pagination: {}, data: [] },
@@ -13,31 +14,40 @@ const initialState: assetState = {
 
 export const getAsset = createAsyncThunk(
   'asset',
-  async (payload: any, { rejectWithValue }) => {
+  async (payload: any, { getState, rejectWithValue }) => {
+    const { auth } = getState() as RootState;
+    if (!auth.user || !auth.user.user_id) return rejectWithValue('User not authenticated');
+
     try {
       const response = await userRequest.get(`/asset?page=${payload.page}&type=${payload.type}`);
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data || 'Password change failed');
+      return rejectWithValue(error.response?.data || 'Request failed');
     }
   }
 )
 
 export const getAssetSingle = createAsyncThunk(
-  'asset',
-  async (_: any, { rejectWithValue }) => {
+  'asset/single',
+  async (_: any, { getState, rejectWithValue }) => {
+    const { auth } = getState() as RootState;
+    if (!auth.user || !auth.user.user_id) return rejectWithValue('User not authenticated');
+
     try {
       const response = await userRequest.get(`/investment/id?id=${_}`);
       return response.data.data[0];
     } catch (error: any) {
-      return rejectWithValue(error.response?.data || 'Password change failed');
+      return rejectWithValue(error.response?.data || 'Request failed');
     }
   }
 )
 
 export const getUserAsset = createAsyncThunk(
   'asset/userAsset',
-  async (payload: any, { rejectWithValue }) => {
+  async (payload: any, { getState, rejectWithValue }) => {
+    const { auth } = getState() as RootState;
+    if (!auth.user || !auth.user.user_id) return rejectWithValue('User not authenticated');
+
     try {
       const response = await userRequest.get(`/userAsset?page=${payload.page}&type=${payload.type}`);
       return response.data.data.asset;
@@ -50,7 +60,10 @@ export const getUserAsset = createAsyncThunk(
 
 export const getAssetAll = createAsyncThunk(
   'asset/all',
-  async (payload: any, { rejectWithValue }) => {
+  async (payload: any, { getState, rejectWithValue }) => {
+    const { auth } = getState() as RootState;
+    if (!auth.user || !auth.user.user_id) return rejectWithValue('User not authenticated');
+
     try {
       const investment = await userRequest.get(`/investment/stats?page=${payload.page}&title=${payload.title}&status=2`);
       let asset;
@@ -64,13 +77,16 @@ export const getAssetAll = createAsyncThunk(
         asset: asset.data.data
       };
     } catch (error: any) {
-      return rejectWithValue(error.response?.data || 'Password change failed');
+      return rejectWithValue(error.response?.data || 'Request failed');
     }
   }
 )
 export const createInvestment = createAsyncThunk(
   'cart/invest',
-  async (payload: any, { rejectWithValue }) => {
+  async (payload: any, { getState, rejectWithValue }) => {
+    const { auth } = getState() as RootState;
+    if (!auth.user || !auth.user.user_id) return rejectWithValue('User not authenticated');
+
     try {
       const result = await userRequest.post("/order/invest", payload)
       if (payload.paymentType === 2) {
@@ -87,7 +103,10 @@ export const createInvestment = createAsyncThunk(
 
 export const getOrders = createAsyncThunk(
   'cart/get/orders',
-  async (payload: any, { rejectWithValue }) => {
+  async (payload: any, { getState, rejectWithValue }) => {
+    const { auth } = getState() as RootState;
+    if (!auth.user || !auth.user.user_id) return rejectWithValue('User not authenticated');
+
     try {
       const result = await userRequest.get("/order")
 

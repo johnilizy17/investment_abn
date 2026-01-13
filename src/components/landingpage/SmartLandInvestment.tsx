@@ -15,6 +15,12 @@ import {
 import { useRouter } from "next/router";
 import { FaInfoCircle } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box as any);
+const MotionFlex = motion(Flex as any);
+const MotionHeading = motion(Heading as any);
+const MotionListItem = motion(List.Item as any);
 
 export default function SmartLandInvestment() {
 
@@ -23,7 +29,7 @@ export default function SmartLandInvestment() {
 
     return (
         <Center px={4}>
-            <Flex
+            <MotionFlex
                 direction={{ base: "column", md: "row" }}
                 justify="space-between"
                 align="flex-end"
@@ -34,12 +40,25 @@ export default function SmartLandInvestment() {
                 borderRadius="2xl"
                 boxShadow="md"
                 gap={10}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
             >
                 {/* Left Section */}
                 <Box flex="1">
-                    <Heading as="h2" fontSize={["20px", "36px"]} lineHeight={"100%"} mb={3}>
+                    <MotionHeading
+                        as="h2"
+                        fontSize={["20px", "36px"]}
+                        lineHeight={"100%"}
+                        mb={3}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                    >
                         Everything You Need for Smart Land Investment
-                    </Heading>
+                    </MotionHeading>
 
                     <Text color={COLORS.gray} mb={6}>
                         Our platform provides all the tools and transparency you need to make
@@ -47,24 +66,24 @@ export default function SmartLandInvestment() {
                     </Text>
 
                     <List.Root ml={4} gap="3" color={COLORS.black} mb={6}>
-                        <List.Item>
-                            Diversified land portfolio across multiple locations
-                        </List.Item>
-                        <List.Item>
-                            Professional land management and development oversight
-                        </List.Item>
-                        <List.Item>
-                            Quarterly dividend distributions from land income
-                        </List.Item>
-                        <List.Item>
-                            Easy liquidity through our secondary marketplace
-                        </List.Item>
-                        <List.Item>
-                            Full legal documentation and title verification
-                        </List.Item>
-                        <List.Item>
-                            Mobile-first platform for easy investment management
-                        </List.Item>
+                        {[
+                            "Diversified land portfolio across multiple locations",
+                            "Professional land management and development oversight",
+                            "Quarterly dividend distributions from land income",
+                            "Easy liquidity through our secondary marketplace",
+                            "Full legal documentation and title verification",
+                            "Mobile-first platform for easy investment management"
+                        ].map((item, idx) => (
+                            <MotionListItem
+                                key={idx}
+                                initial={{ opacity: 0, x: -10 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.3, delay: 0.3 + idx * 0.1 }}
+                            >
+                                {item}
+                            </MotionListItem>
+                        ))}
                     </List.Root>
 
                     <Button onClick={() => user && user.id ? router.push("/dashboard") : router.push("/auth/login")}
@@ -74,15 +93,18 @@ export default function SmartLandInvestment() {
                 </Box>
 
                 {/* Right Card Section */}
-                <Box
+                <MotionBox
                     flex={["1", "0.6"]}
                     bg="gray.50"
                     w="full"
                     p={8}
-
                     borderRadius="xl"
                     boxShadow="sm"
                     textAlign="left"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
                 >
                     <VStack align="stretch" gap={3}>
                         <Flex justify="space-between">
@@ -103,11 +125,11 @@ export default function SmartLandInvestment() {
                         </Flex>
                     </VStack>
 
-                    <Button mt={6} onClick={()=>router.push("/marketplace")} colorScheme="blue" p={4} bg={COLORS.blue} borderRadius={"12px"} width="full">
+                    <Button mt={6} onClick={() => router.push("/marketplace")} colorScheme="blue" p={4} bg={COLORS.blue} borderRadius={"12px"} width="full">
                         View Details
                     </Button>
-                </Box>
-            </Flex>
+                </MotionBox>
+            </MotionFlex>
         </Center>
     );
 }

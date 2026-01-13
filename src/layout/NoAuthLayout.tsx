@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import Footer from './Footer';
 import { useDispatch } from 'react-redux';
 import { getAssetAll } from '@/url/redux/slices/assetSlice';
+import { motion } from 'framer-motion';
 
 export default function NoAuthLayout({ children, title }: { children: any, title: string }) {
 
@@ -24,7 +25,14 @@ export default function NoAuthLayout({ children, title }: { children: any, title
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            {children}
+            <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+            >
+                {children}
+            </motion.div>
             <Footer />
         </>
     )

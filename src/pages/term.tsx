@@ -1,12 +1,27 @@
 import Navbar from "@/components/landingpage/LandingPageHeader";
 import NoAuthLayout from "@/layout/NoAuthLayout";
 import { Box, Center, Heading, Separator, Text, VStack } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box as any);
 
 export default function InvestmentAgreement() {
     return (
         <NoAuthLayout title="Marektplace - Land Banking">
             <Navbar />
-            <Box maxW="5xl"mx="auto" my={10} p={8}  mt="100px"  bg="white" borderRadius="lg" boxShadow="md">
+            <MotionBox
+                maxW="5xl"
+                mx="auto"
+                my={10}
+                p={8}
+                mt="100px"
+                bg="white"
+                borderRadius="lg"
+                boxShadow="md"
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6 }}
+            >
 
                 <Center mb={8} fontSize="2xl" lineHeight={"130%"} fontWeight="700" textAlign={"center"} color="blue.700">
                     ABN INVESTORS’ TERMS AND INVESTMENT <br />
@@ -131,7 +146,7 @@ export default function InvestmentAgreement() {
 
                     <Text fontWeight="bold" mt={6}>IN WITNESS WHEREOF, the parties hereby execute this Agreement as a binding document.</Text>
                 </VStack>
-            </Box>
+            </MotionBox>
         </NoAuthLayout>
     );
 }

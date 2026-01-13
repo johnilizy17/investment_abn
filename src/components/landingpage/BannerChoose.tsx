@@ -3,6 +3,12 @@
 import { COLORS } from "@/utils/theme";
 import { Box, Grid, GridItem, Heading, Text, Icon } from "@chakra-ui/react";
 import { FaUsers, FaLandmark, FaShieldAlt, FaChartLine } from "react-icons/fa";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box as any);
+const MotionGrid = motion(Grid as any);
+const MotionGridItem = motion(GridItem as any);
+const MotionHeading = motion(Heading as any);
 
 export default function BannerChoose() {
   const features = [
@@ -44,24 +50,41 @@ export default function BannerChoose() {
   return (
     <Box bg="#0049AF1A" py={16} px={6}>
       {/* Section Heading */}
-      <Box textAlign="center" mb={12}>
+      <MotionBox
+        textAlign="center"
+        mb={12}
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
         <Heading fontSize="36px" fontWeight={"500"} mb={2}>
           Why Choose Land Banking
         </Heading>
         <Text fontSize={"16px"} color={COLORS.gray}>
           Land Banking offers unique advantages for building long-term wealth
         </Text>
-      </Box>
+      </MotionBox>
 
       {/* Feature Grid */}
-      <Grid
+      <MotionGrid
         templateColumns={{ base: "1fr", md: "1fr 1fr" }}
         gap={8}
         maxW="6xl"
         mx="auto"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={{
+          visible: {
+            transition: {
+              staggerChildren: 0.15
+            }
+          }
+        }}
       >
         {features.map((feature, idx) => (
-          <GridItem
+          <MotionGridItem
             key={idx}
             bg="white"
             p={6}
@@ -70,19 +93,23 @@ export default function BannerChoose() {
             maxW={"422px"}
             border="1px solid"
             borderColor="gray.100"
-            _hover={{ shadow: "lg", transform: "translateY(-2px)" }}
-            transition="all 0.2s"
+            variants={{
+              hidden: { opacity: 0, scale: 0.95 },
+              visible: { opacity: 1, scale: 1 }
+            }}
+            whileHover={{ translateY: -5, shadow: "lg" }}
+            transition={{ duration: 0.4 }}
           >
             <Box display="flex" alignItems="center" mb={4}>
-              <Icon w={6} h={6}  mr={3} >
+              <Icon w={6} h={6} mr={3} >
                 {feature.icon}
               </Icon>
               <Heading fontSize={["16px", "20px"]} fontWeight={"500"}>{feature.title}</Heading>
             </Box>
             <Text color={COLORS.gray} fontSize={["12px", "16px"]} fontWeight={"400"}>{feature.desc}</Text>
-          </GridItem>
+          </MotionGridItem>
         ))}
-      </Grid>
+      </MotionGrid>
     </Box>
   );
 }

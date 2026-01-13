@@ -31,18 +31,28 @@ import {
 import NoAuthLayout from "@/layout/NoAuthLayout";
 import Navbar from "@/components/landingpage/LandingPageHeader";
 import { COLORS } from "@/utils/theme";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box as any);
+const MotionVStack = motion(VStack as any);
+const MotionFlex = motion(Flex as any);
+const MotionHStack = motion(HStack as any);
 
 // Replace with the correct path to the background image in your project
 const BG_IMAGE = "/Background.png";
 
-const StatCard = ({ label, value }: any) => (
-    <Box
+const StatCard = ({ label, value, index }: any) => (
+    <MotionBox
         borderWidth={1}
         borderRadius="md"
         p={6}
         bg={COLORS.whitesmoke}
         boxShadow="sm"
         textAlign="center"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
     >
         <Heading size="md" color={COLORS.blue}>
             {value}
@@ -50,11 +60,21 @@ const StatCard = ({ label, value }: any) => (
         <Text fontSize="sm" color="gray.500" mt={2}>
             {label}
         </Text>
-    </Box>
+    </MotionBox>
 );
 
-const ValueCard = ({ icon, title, children }: { icon: any, title: any, children: any }) => (
-    <Box borderWidth={1} borderRadius="md" p={6} bg={COLORS.whitesmoke}>
+const ValueCard = ({ icon, title, children, index }: { icon: any, title: any, children: any, index: number }) => (
+    <MotionBox
+        borderWidth={1}
+        borderRadius="md"
+        p={6}
+        bg={COLORS.whitesmoke}
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        whileHover={{ translateY: -5, boxShadow: "lg" }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4, delay: index * 0.1 }}
+    >
         <HStack gap={4} display={["block", "flex"]} align="start">
             <Circle size="12" bg={COLORS.light_white} color={COLORS.blue}>
                 <Icon as={icon} boxSize={6} />
@@ -66,7 +86,7 @@ const ValueCard = ({ icon, title, children }: { icon: any, title: any, children:
                 </Text>
             </VStack>
         </HStack>
-    </Box>
+    </MotionBox>
 );
 
 export default function AboutPage() {
@@ -75,36 +95,56 @@ export default function AboutPage() {
             <Navbar />
             <Box mt="80px">
                 {/* Hero */}
-                <Flex
+                <MotionFlex
                     minH={{ base: "220px", md: "260px" }}
                     align="center"
                     justify="center"
                     color="white"
                     px={4}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8 }}
                 >
                     <Container maxW="6xl" py={{ base: 8, md: 12 }}>
-                        <VStack gap={3} bg="rgba(255,255,255,0.0)">
+                        <MotionVStack
+                            gap={3}
+                            bg="rgba(255,255,255,0.0)"
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                        >
                             <Heading as="h1" size="2xl" color={COLORS.blue} textAlign="center">
                                 About Us
                             </Heading>
                             <Text fontSize={{ base: "md", md: "lg" }} color="gray.600" textAlign="center" maxW="3xl">
-                             {"We're democratizing land investment by making it accessible, transparent, and profitable for everyone through fractional ownership."}
+                                {"We're democratizing land investment by making it accessible, transparent, and profitable for everyone through fractional ownership."}
                             </Text>
-                        </VStack>
+                        </MotionVStack>
                     </Container>
-                </Flex>
+                </MotionFlex>
 
                 <Container px={10}>
                     {/* Stats */}
                     <SimpleGrid w="full" columns={{ base: 2, md: 4 }} gap={6} mb={8}>
-                        <StatCard value="10,000+" label="Active Investors" />
-                        <StatCard value="150+" label="Land Banks" />
-                        <StatCard value="N50M+" label="Total Investment" />
-                        <StatCard value="40.5%" label="Average ROI" />
+                        <StatCard index={0} value="10,000+" label="Active Investors" />
+                        <StatCard index={1} value="150+" label="Land Banks" />
+                        <StatCard index={2} value="N50M+" label="Total Investment" />
+                        <StatCard index={3} value="40.5%" label="Average ROI" />
                     </SimpleGrid>
 
                     {/* Mission */}
-                    <Box borderWidth={1} w="full" borderRadius="md" p={6} mb={10} bgGradient="linear(to-r, #ffffff, #fff9f4)">
+                    <MotionBox
+                        borderWidth={1}
+                        w="full"
+                        borderRadius="md"
+                        p={6}
+                        mb={10}
+                        bgGradient="linear(to-r, #ffffff, #fff9f4)"
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                    >
                         <HStack gap={4} display={["block", "flex"]} alignItems="start">
                             <Box>
                                 <Circle size="12" bg="#EAF3FF" color={COLORS.blue}>
@@ -123,27 +163,33 @@ export default function AboutPage() {
                                 </Text>
                             </Box>
                         </HStack>
-                    </Box>
+                    </MotionBox>
 
                     {/* Core Values */}
-                    <Box textAlign="center" mb={6}>
+                    <MotionBox
+                        textAlign="center"
+                        mb={6}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                    >
                         <Heading size="lg">Our Core Values</Heading>
-                    </Box>
+                    </MotionBox>
 
                     <SimpleGrid columns={{ base: 1, md: 4 }} gap={6} mb={10}>
-                        <ValueCard icon={FaShieldAlt} title="Transparency">
+                        <ValueCard index={0} icon={FaShieldAlt} title="Transparency">
                             Full disclosure of all investment opportunities with clear documentation and legal frameworks.
                         </ValueCard>
 
-                        <ValueCard icon={FaAccessibleIcon} title="Accessibility">
+                        <ValueCard index={1} icon={FaAccessibleIcon} title="Accessibility">
                             Making land investment accessible to everyone through fractional ownership.
                         </ValueCard>
 
-                        <ValueCard icon={FaChartLine} title="Growth">
+                        <ValueCard index={2} icon={FaChartLine} title="Growth">
                             Focused on sustainable appreciation and long-term value creation.
                         </ValueCard>
 
-                        <ValueCard icon={FaGlobe} title="Sustainability">
+                        <ValueCard index={3} icon={FaGlobe} title="Sustainability">
                             Committed to ethical investments that benefit communities and the environment.
                         </ValueCard>
                     </SimpleGrid>
@@ -151,72 +197,57 @@ export default function AboutPage() {
                     {/* How We Work */}
 
                     <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
-                        <Box borderWidth={1} borderRadius="md" p={6} mb={10}>
+                        <MotionBox
+                            borderWidth={1}
+                            borderRadius="md"
+                            p={6}
+                            mb={10}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                        >
                             <Heading size="md" mb={4}>
                                 How We Work
                             </Heading>
 
                             <Box>
                                 <List.Root gap={6}>
-                                    <ListItem>
-                                        <HStack alignItems="start">
-                                            <Circle size="8" bg="#EAF3FF" color={COLORS.blue}>
-                                                <Text fontWeight={700}>1</Text>
-                                            </Circle>
-                                            <Box>
-                                                <Heading size="sm">Careful Selection</Heading>
-                                                <Text fontSize="sm" color="gray.500">
-                                                    We identify high-potential land parcels in strategic locations with strong growth prospects.
-                                                </Text>
-                                            </Box>
-                                        </HStack>
-                                    </ListItem>
-
-                                    <ListItem>
-                                        <HStack alignItems="start">
-                                            <Circle size="8" bg="#EAF3FF" color={COLORS.blue}>
-                                                <Text fontWeight={700}>2</Text>
-                                            </Circle>
-                                            <Box>
-                                                <Heading size="sm">Legal Framework</Heading>
-                                                <Text fontSize="sm" color="gray.500">
-                                                    Each Land Bank is structured with complete legal compliance and clear ownership documentation.
-                                                </Text>
-                                            </Box>
-                                        </HStack>
-                                    </ListItem>
-
-                                    <ListItem>
-                                        <HStack alignItems="start">
-                                            <Circle size="8" bg="#EAF3FF" color={COLORS.blue}>
-                                                <Text fontWeight={700}>3</Text>
-                                            </Circle>
-                                            <Box>
-                                                <Heading size="sm">Fractional Ownership</Heading>
-                                                <Text fontSize="sm" color="gray.500">
-                                                    We divide ownership into affordable shares, making land investment accessible to all.
-                                                </Text>
-                                            </Box>
-                                        </HStack>
-                                    </ListItem>
-
-                                    <ListItem>
-                                        <HStack alignItems="start">
-                                            <Circle size="8" bg="#EAF3FF" color={COLORS.blue}>
-                                                <Text fontWeight={700}>4</Text>
-                                            </Circle>
-                                            <Box>
-                                                <Heading size="sm">Growth & Returns</Heading>
-                                                <Text fontSize="sm" color="gray.500">
-                                                    As land values appreciate, so does your investment, with transparent tracking and reporting.
-                                                </Text>
-                                            </Box>
-                                        </HStack>
-                                    </ListItem>
+                                    {[
+                                        { title: "Careful Selection", text: "We identify high-potential land parcels in strategic locations with strong growth prospects." },
+                                        { title: "Legal Framework", text: "Each Land Bank is structured with complete legal compliance and clear ownership documentation." },
+                                        { title: "Fractional Ownership", text: "We divide ownership into affordable shares, making land investment accessible to all." },
+                                        { title: "Growth & Returns", text: "As land values appreciate, so does your investment, with transparent tracking and reporting." }
+                                    ].map((item, idx) => (
+                                        <ListItem key={idx}>
+                                            <MotionHStack
+                                                alignItems="start"
+                                                initial={{ opacity: 0, x: -10 }}
+                                                whileInView={{ opacity: 1, x: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ duration: 0.4, delay: idx * 0.15 }}
+                                            >
+                                                <Circle size="8" bg="#EAF3FF" color={COLORS.blue}>
+                                                    <Text fontWeight={700}>{idx + 1}</Text>
+                                                </Circle>
+                                                <Box>
+                                                    <Heading size="sm">{item.title}</Heading>
+                                                    <Text fontSize="sm" color="gray.500">
+                                                        {item.text}
+                                                    </Text>
+                                                </Box>
+                                            </MotionHStack>
+                                        </ListItem>
+                                    ))}
                                 </List.Root>
                             </Box>
-                        </Box>
-                        <Box>
+                        </MotionBox>
+                        <MotionBox
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                        >
                             <Box
                                 borderWidth={1}
                                 borderRadius="md"
@@ -239,7 +270,7 @@ export default function AboutPage() {
                                     </Text>
                                 </VStack>
                             </Box>
-                        </Box>
+                        </MotionBox>
                     </SimpleGrid>
 
                 </Container>

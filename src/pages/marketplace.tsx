@@ -9,7 +9,10 @@ import { EmptyState } from "@/utils/EmptyState";
 import { Box, Center, Container, SimpleGrid } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
+const MotionSimpleGrid = motion(SimpleGrid as any);
+const MotionBox = motion(Box as any);
 
 export default function MarketplacePage() {
 
@@ -22,14 +25,35 @@ export default function MarketplacePage() {
                 <Container maxW="1200px" px={4} py={10}>
                     <HeroSection />
                     <SearchFilter />
-                    <SimpleGrid columns={investment && investment.data.length > 0.1 ? { base: 1, md: 2, lg: 2 } : 1} gap={8} mt={8}>
+                    <MotionSimpleGrid
+                        columns={investment && investment.data.length > 0.1 ? { base: 1, md: 2, lg: 2 } : 1}
+                        gap={8}
+                        mt={8}
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                            visible: {
+                                transition: {
+                                    staggerChildren: 0.1
+                                }
+                            }
+                        }}
+                    >
                         {investment && investment.data.length > 0.1 ?
                             investment.data.map((item: any, idx: number) => (
-                                <LandCard key={idx} {...item} />
+                                <MotionBox
+                                    key={idx}
+                                    variants={{
+                                        hidden: { opacity: 0, y: 20 },
+                                        visible: { opacity: 1, y: 0 }
+                                    }}
+                                >
+                                    <LandCard {...item} />
+                                </MotionBox>
                             ))
                             :
                             <EmptyState title="no properties" />}
-                    </SimpleGrid>
+                    </MotionSimpleGrid>
                 </Container>
             </Center>
         </NoAuthLayout>

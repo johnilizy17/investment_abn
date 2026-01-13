@@ -18,6 +18,12 @@ import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import NoAuthLayout from "@/layout/NoAuthLayout";
 import Navbar from "@/components/landingpage/LandingPageHeader";
 import { COLORS } from "@/utils/theme";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box as any);
+const MotionVStack = motion(VStack as any);
+const MotionHStack = motion(HStack as any);
+const MotionFlex = motion(Flex as any);
 
 export default function ContactSection() {
     const bgForm = COLORS.whitesmoke;
@@ -26,7 +32,7 @@ export default function ContactSection() {
     return (
         <NoAuthLayout title="Contact Us - ABN Narionhs Land Bank">
             <Navbar />
-            <Flex
+            <MotionFlex
                 minH={{ base: "220px", md: "260px" }}
                 align="center"
                 justify="center"
@@ -34,23 +40,41 @@ export default function ContactSection() {
                 bg={COLORS.blue}
                 px={4}
                 mt="70px"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8 }}
             >
                 <Container maxW="6xl" py={{ base: 8, md: 12 }}>
-                    <VStack gap={3} bg="rgba(255,255,255,0.0)">
+                    <MotionVStack
+                        gap={3}
+                        bg="rgba(255,255,255,0.0)"
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
                         <Heading as="h1" size="2xl" color={COLORS.white} textAlign="center">
                             Get in Touch
                         </Heading>
                         <Text fontSize={{ base: "md", md: "lg" }} textAlign="center" maxW="3xl">
-                           {" Have questions about our land payment plans? We're here to help you start your journey to land ownership."}
+                            {" Have questions about our land payment plans? We're here to help you start your journey to land ownership."}
                         </Text>
-                    </VStack>
+                    </MotionVStack>
                 </Container>
-            </Flex>
+            </MotionFlex>
 
             <Container justifyContent={"center"} display={"flex"} px={12}>
-                <SimpleGrid maxW="1200px" pt="60px" columns={{ base: 1, md: 2 }} gap={10}>
+                <SimpleGrid maxW="1200px" pt="60px" columns={{ base: 1, md: 2 }} gap={10} mb={10}>
                     {/* Contact Form */}
-                    <Box bg={bgForm} p={8} rounded="md" boxShadow="md">
+                    <MotionBox
+                        bg={bgForm}
+                        p={8}
+                        rounded="md"
+                        boxShadow="md"
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                    >
                         <Heading size="lg" mb={6}>
                             Send Us a Message
                         </Heading>
@@ -87,21 +111,28 @@ export default function ContactSection() {
                                 Send Message
                             </Button>
                         </VStack>
-                    </Box>
+                    </MotionBox>
 
                     {/* Contact Information */}
-                    <VStack align="stretch" gap={6}>
+                    <MotionVStack
+                        align="stretch"
+                        gap={6}
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                    >
                         <Box>
                             <Heading size="lg" mb={2}>
                                 Contact Information
                             </Heading>
                             <Text color="gray.600">
-                          {"Reach out to us through any of the following channels. We're available Monday to Friday, 9 AM to 6 PM."}
+                                {"Reach out to us through any of the following channels. We're available Monday to Friday, 9 AM to 6 PM."}
                             </Text>
                         </Box>
 
                         <VStack align="stretch" gap={5}>
-                            <HStack align="center">
+                            <MotionHStack align="center" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
                                 <Circle size="10" bg="green.100" color="green.500">
                                     <Icon as={FaPhone} boxSize={5} />
                                 </Circle>
@@ -110,9 +141,9 @@ export default function ContactSection() {
                                     <Text color="gray.600">+234 800 123 4567</Text>
                                     <Text color="gray.600">+234 800 765 4321</Text>
                                 </Box>
-                            </HStack>
+                            </MotionHStack>
 
-                            <HStack align="center">
+                            <MotionHStack align="center" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
                                 <Circle size="10" bg="yellow.100" color="yellow.600">
                                     <Icon as={FaEnvelope} boxSize={5} />
                                 </Circle>
@@ -121,9 +152,9 @@ export default function ContactSection() {
                                     <Text color="gray.600">info@lendpay.com</Text>
                                     <Text color="gray.600">support@lendpay.com</Text>
                                 </Box>
-                            </HStack>
+                            </MotionHStack>
 
-                            <HStack align="center">
+                            <MotionHStack align="center" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
                                 <Circle size="10" bg="blue.100" color="blue.600">
                                     <Icon as={FaMapMarkerAlt} boxSize={5} />
                                 </Circle>
@@ -132,18 +163,28 @@ export default function ContactSection() {
                                     <Text color="gray.600">123 Land Avenue, Victoria Island</Text>
                                     <Text color="gray.600">Lagos, Nigeria</Text>
                                 </Box>
-                            </HStack>
+                            </MotionHStack>
                         </VStack>
 
-                        <Box mt={4} p={5} bg={bgInfo} rounded="md" boxShadow="sm">
+                        <MotionBox
+                            mt={4}
+                            p={5}
+                            bg={bgInfo}
+                            rounded="md"
+                            boxShadow="sm"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.4 }}
+                        >
                             <Heading size="sm" mb={2}>
                                 Office Hours
                             </Heading>
                             <Text color="gray.700">Monday – Friday: 9:00 AM – 6:00 PM</Text>
                             <Text color="gray.700">Saturday: 10:00 AM – 3:00 PM</Text>
                             <Text color="gray.700">Sunday: Closed</Text>
-                        </Box>
-                    </VStack>
+                        </MotionBox>
+                    </MotionVStack>
                 </SimpleGrid>
             </Container>
         </NoAuthLayout>
